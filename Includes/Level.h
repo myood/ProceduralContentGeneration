@@ -84,7 +84,7 @@ public:
 	 * @param fileName The path to the level file to load.
 	 * return true if the level loaded succesfully.
 	 */
-	bool Level::LoadLevelFromFile(std::string fileName);
+	bool LoadLevelFromFile(std::string fileName);
 
 	/**
 	 * Gets the tile at the given position.
