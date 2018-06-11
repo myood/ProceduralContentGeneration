@@ -8,8 +8,8 @@
 //
 // Written by Dale Green. Copyright (c) Packt Publishing. All rights reserved.
 //-------------------------------------------------------------------------------------
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <sstream>
 #include <fstream>
 #include <memory>
