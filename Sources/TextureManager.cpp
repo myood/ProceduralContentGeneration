@@ -1,7 +1,7 @@
 #include "PCH.h"
 
 std::map<std::string, std::pair<int, std::unique_ptr<sf::Texture>>> TextureManager::m_textures;
-int TextureManager::m_currentId = 0;
+int TextureManager::m_currentId = -1;
 
 // Default Constructor.
 TextureManager::TextureManager()
