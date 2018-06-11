@@ -126,7 +126,10 @@ void Player::Update(float timeDelta, Level& level)
 			// Update sprite to idle version.
 			// In our enum we have 4 walking sprites followed by 4 idle sprites.
 			// Given this, we can simply add 4 to a walking sprite to get its idle counterpart.
-			m_currentTextureIndex += 4;
+			if (m_currentTextureIndex <= 3) // Check if texture is actually walking
+			{
+				m_currentTextureIndex += 4;
+			}
 			m_sprite.setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
 
 			// Stop movement animations.
@@ -139,7 +142,10 @@ void Player::Update(float timeDelta, Level& level)
 		if (!IsAnimated())
 		{
 			// Update sprite to walking version.
-			m_currentTextureIndex -= 4;
+			if (m_currentTextureIndex > 3) // Check if texture is actually idle
+			{
+				m_currentTextureIndex -= 4;
+			}
 			m_sprite.setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
 
 			// Start movement animations.
