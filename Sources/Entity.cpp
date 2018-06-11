@@ -57,7 +57,10 @@ void Entity::Update(float timeDelta)
 		if (IsAnimated())
 		{
 			// Update sprite to idle version.
-			m_currentTextureIndex += 4;
+			if (m_currentTextureIndex <= 3) // Check if texture is actually walking
+			{
+				m_currentTextureIndex += 4;
+			}
 
 			// Stop movement animations.
 			SetAnimated(false);
@@ -69,7 +72,10 @@ void Entity::Update(float timeDelta)
 		if (!IsAnimated())
 		{
 			// Update sprite to walking version.
-			m_currentTextureIndex -= 4;
+			if (m_currentTextureIndex > 3) // Check if texture is actually idle
+			{
+				m_currentTextureIndex -= 4;
+			}
 
 			// Start movement animations.
 			SetAnimated(true);
