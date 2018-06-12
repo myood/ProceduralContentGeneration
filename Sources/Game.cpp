@@ -631,7 +631,7 @@ void Game::Draw(float timeDelta)
 	case GAME_STATE::PLAYING:
 	{
 		// Set the main game view.
-		m_window.setView(m_views[static_cast<int>(VIEW::MAIN)]);
+		//m_window.setView(m_views[static_cast<int>(VIEW::MAIN)]);
 
 		// Draw the level.
 		m_level.Draw(m_window, timeDelta);
@@ -660,7 +660,7 @@ void Game::Draw(float timeDelta)
 		// Draw level light.
 		for (const sf::Sprite& sprite : m_lightGrid)
 		{
-			m_window.draw(sprite);
+			//m_window.draw(sprite);
 		}
 
 		// Switch to UI view.
