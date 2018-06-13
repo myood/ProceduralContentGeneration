@@ -1,6 +1,6 @@
 # TODO: instead of debian apt call, consider this: https://www.selectiveintellect.net/blog/2016/7/29/using-cmake-to-add-third-party-libraries-to-your-project-1
 
-sudo apt install libsfml-dev libboost-graph-dev libgtest-dev google-mock
+sudo apt install libsfml-dev libboost-all-dev libgtest-dev google-mock
 cd /usr/src/gtest
 sudo cmake CMakeLists.txt
 sudo make

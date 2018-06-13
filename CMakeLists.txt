@@ -36,7 +36,6 @@ add_library(${EXECUTABLE_LIBRARY_NAME}
     Sources/SoundBufferManager.cpp
     Sources/TextureManager.cpp
     Sources/Torch.cpp
-
     Includes/Enemy.h
     Includes/Entity.h
     Includes/Game.h
@@ -57,45 +56,29 @@ add_library(${EXECUTABLE_LIBRARY_NAME}
     Includes/SoundBufferManager.h
     Includes/TextureManager.h
     Includes/Torch.h)
-
-
 target_include_directories(${EXECUTABLE_LIBRARY_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Includes>
-    $<INSTALL_INTERFACE:Includes>)
-target_include_directories(${EXECUTABLE_LIBRARY_NAME} PUBLIC
-	$<BUILD_INTERFACE:${SFML_INCLUDE_DIR}>
-	$<INSTALL_INTERFACE:SFML>)
+    ${CMAKE_CURRENT_SOURCE_DIR}/Includes
+	${SFML_INCLUDE_DIR})
 target_link_libraries(${EXECUTABLE_LIBRARY_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
 
 add_executable(${EXECUTABLE_NAME}
     Sources/main.cpp)
-
 target_include_directories(${EXECUTABLE_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Includes>
-    $<INSTALL_INTERFACE:Includes>)
-
+    ${CMAKE_CURRENT_SOURCE_DIR}/Includes)
 target_link_libraries(${EXECUTABLE_NAME} ${EXECUTABLE_LIBRARY_NAME})
-
 
 enable_testing()
 find_package(GTest REQUIRED)
-
 set(TEST_EXECUTABLE_NAME Test${EXECUTABLE_NAME})
-
 add_executable(${TEST_EXECUTABLE_NAME}
     Test/main.cpp
     Test/TestSpatialLevelGenerator.cpp)
-
-target_include_directories(${EXECUTABLE_LIBRARY_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Includes>
-    $<INSTALL_INTERFACE:Includes>)
-target_include_directories(${EXECUTABLE_LIBRARY_NAME} PUBLIC
-	$<BUILD_INTERFACE:${GTEST_INCLUDE_DIRS}>
-	$<INSTALL_INTERFACE:gtest>)
-target_include_directories(${EXECUTABLE_LIBRARY_NAME} PUBLIC
-	$<BUILD_INTERFACE:${GMOCK_INCLUDE_DIRS}>
-	$<INSTALL_INTERFACE:gmock>)
-    
-target_link_libraries(${TEST_EXECUTABLE_NAME} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread ${EXECUTABLE_LIBRARY_NAME})
-
+find_package(Boost REQUIRED
+    COMPONENTS graph)
+target_include_directories(${TEST_EXECUTABLE_NAME} PUBLIC
+	${Boost_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Includes
+	$<BUILD_INTERFACE:${GTEST_INCLUDE_DIRS}
+	$<BUILD_INTERFACE:${GMOCK_INCLUDE_DIRS})
+target_link_libraries(${TEST_EXECUTABLE_NAME} gtest gtest_main gmock gmock_main pthread ${EXECUTABLE_LIBRARY_NAME})
 add_test(first_and_only_test ${TEST_EXECUTABLE_NAME})
