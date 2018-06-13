@@ -11,4 +11,6 @@ sudo cmake CMakeLists.txt
 sudo make
 sudo cp *.a /usr/lib
 cd -
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
 mkdir -p build && cd build && rm -rf * && cmake .. && make
