@@ -7,6 +7,7 @@
 #include <boost/graph/properties.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/range/iterator_range_core.hpp>
+#include <boost/range/algorithm/transform.hpp>
 
 using namespace testing;
 
@@ -42,12 +43,18 @@ public:
         auto root = add_vertex(graph);
         boost::put(areasMap, root, area_t{0, space_height, 0, space_width});
         divide(root);
+        return true;
     }
 
     auto nodes()
     {
         auto v_it = boost::vertices(graph);
         return std::vector<Node>(v_it.first, v_it.second);
+    }
+
+    area_t area(const Node& node)
+    {
+        return boost::get(areasMap, node);
     }
 
 private:
@@ -113,6 +120,10 @@ private:
         auto getFunction() { return [this](int min, int max){ return generate(min, max); }; }
     };
 
+static bool operator!=(const SpacePartition::area_t& a1, const SpacePartition::area_t& a2) {
+    return true;
+}
+
 TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThatDimension)
 {
     SpacePartition sp{SpacePartition::RandomNumberGenerator()};
@@ -133,6 +144,16 @@ TEST_F(TestSpatialLevelGenerator, envTest)
     const auto min_width = 10;
     const auto height = 20;
     const auto width = 20;
+    const auto begin = 0;
     ASSERT_TRUE(sp.divide(min_width, min_height, width, height));
-    ASSERT_EQ(3, sp.nodes().size());
+    const auto size = 3;
+    ASSERT_EQ(size, sp.nodes().size());
+    const auto expected = std::vector<SpacePartition::area_t>{
+        SpacePartition::area_t{begin, height, begin, width},
+        SpacePartition::area_t{min_height, height, min_width, width},
+        SpacePartition::area_t{begin, min_height, begin, min_width}
+    };
+    std::vector<SpacePartition::area_t> actual(size);
+    boost::range::transform(sp.nodes(), actual.begin(), [&sp](const auto& node) { return sp.area(node); });
+    EXPECT_THAT(actual, ::testing::ContainerEq(expected));
 }
