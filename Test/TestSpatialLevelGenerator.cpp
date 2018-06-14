@@ -76,27 +76,28 @@ private:
             return;
         }
 
-        auto split_width = width;
-        auto split_height = height;
+
         int split_orientation = rng(0, 1);
         if (split_orientation == 0)
         {
             const auto random_min_width = min_width;
             const auto random_max_width = width - min_width;
-            split_width = rng(random_min_width, random_max_width);
+            const auto split_width = rng(random_min_width, random_max_width);
+            divide(
+                add_child(node, area_t{area.top, area.bottom, area.left, area.left + split_width}));
+            divide(
+                add_child(node, area_t{area.top, area.bottom, area.left + split_width, area.right}));
         }
         else
         {
             const auto random_min_height = min_height;
             const auto random_max_height = height - min_height;
-            split_height = rng(random_min_height, random_max_height);
+            const auto split_height = rng(random_min_height, random_max_height);
+            divide(
+                add_child(node, area_t{area.top, area.top + split_height, area.left, area.right}));
+            divide(
+                add_child(node, area_t{area.top + split_height, area.bottom, area.left, area.right}));
         }
-
-
-        divide(
-            add_child(node, area_t{area.top, area.top + split_height, area.left, area.left + split_width}));
-        divide(
-            add_child(node, area_t{area.top + split_height, area.bottom, area.left + split_width, area.bottom}));
     }
 
     Node add_child(const Node& parent, const area_t& area)
@@ -152,12 +153,11 @@ TEST_F(TestSpatialLevelGenerator, envTest)
     ASSERT_TRUE(sp.divide(min_width, min_height, width, height));
     const auto size = 3;
     ASSERT_EQ(size, sp.nodes().size());
-    const auto expected = std::vector<SpacePartition::area_t>{
-        SpacePartition::area_t{begin, height, begin, width},
-        SpacePartition::area_t{begin, height, min_width, width},
-        SpacePartition::area_t{begin, height, begin, min_width}
-    };
     std::vector<SpacePartition::area_t> actual(size);
     boost::range::transform(sp.nodes(), actual.begin(), [&sp](const auto& node) { return sp.area(node); });
-    EXPECT_THAT(actual, ::testing::ContainerEq(expected));
+    EXPECT_THAT(actual, ::testing::UnorderedElementsAre(
+        SpacePartition::area_t{begin, height, begin, width},
+        SpacePartition::area_t{begin, height, min_width, width},
+        SpacePartition::area_t{begin, height, begin, min_width}));
+    
 }
