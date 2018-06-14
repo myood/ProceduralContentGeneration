@@ -38,7 +38,7 @@ TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThat
     ASSERT_FALSE(sut.divide(min_width, min_height, width, height));
 }
 
-TEST_F(TestSpatialLevelGenerator, twoRooms)
+TEST_F(TestSpatialLevelGenerator, twoRoomsHorizontally)
 {
     EXPECT_CALL(rngMock, generate(0, 1)).WillRepeatedly(testing::Return(0));
     EXPECT_CALL(rngMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
@@ -55,4 +55,23 @@ TEST_F(TestSpatialLevelGenerator, twoRooms)
                             SpacePartition::area_t{0, height, 0, width},
                             SpacePartition::area_t{0, height, 11, width},
                             SpacePartition::area_t{0, height, 0, 10}));
+}
+
+TEST_F(TestSpatialLevelGenerator, twoRoomsVertically)
+{
+    EXPECT_CALL(rngMock, generate(0, 1)).WillRepeatedly(testing::Return(1));
+    EXPECT_CALL(rngMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
+    
+    const auto min_height = 10;
+    const auto min_width = 10;
+    const auto height = 20;
+    const auto width = 20;
+    const auto begin = 0;
+
+    ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
+
+    EXPECT_THAT(sut.areas(), ::testing::UnorderedElementsAre(
+                            SpacePartition::area_t{0, height, 0, width},
+                            SpacePartition::area_t{11, height, 0, width},
+                            SpacePartition::area_t{0, 10, 0, width}));
 }
