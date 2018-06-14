@@ -120,10 +120,6 @@ private:
         auto getFunction() { return [this](int min, int max){ return generate(min, max); }; }
     };
 
-static bool operator==(const SpacePartition::area_t& lhs, const SpacePartition::area_t& rhs) {
-    return lhs.top == rhs.top and lhs.bottom == rhs.bottom and lhs.left == rhs.left and lhs.right == lhs.right;
-}
-
 TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThatDimension)
 {
     SpacePartition sp{SpacePartition::RandomNumberGenerator()};
@@ -132,6 +128,14 @@ TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThat
     const auto height = 3;
     const auto width = 3;
     ASSERT_FALSE(sp.divide(min_width, min_height, width, height));
+}
+
+static bool operator==(const SpacePartition::area_t& lhs, const SpacePartition::area_t& rhs) {
+    return lhs.top == rhs.top and lhs.bottom == rhs.bottom and lhs.left == rhs.left and lhs.right == lhs.right;
+}
+
+::std::ostream& operator<<(::std::ostream& os, const SpacePartition::area_t& area) {
+    return os << "[top: " << area.top << ", bottom: " << area.bottom << ", left: " << area.left << ", right: " << area.right << "]";
 }
 
 TEST_F(TestSpatialLevelGenerator, envTest)
@@ -150,8 +154,8 @@ TEST_F(TestSpatialLevelGenerator, envTest)
     ASSERT_EQ(size, sp.nodes().size());
     const auto expected = std::vector<SpacePartition::area_t>{
         SpacePartition::area_t{begin, height, begin, width},
-        SpacePartition::area_t{min_height, height, min_width, width},
-        SpacePartition::area_t{begin, min_height, begin, min_width}
+        SpacePartition::area_t{begin, height, min_width, width},
+        SpacePartition::area_t{begin, height, begin, min_width}
     };
     std::vector<SpacePartition::area_t> actual(size);
     boost::range::transform(sp.nodes(), actual.begin(), [&sp](const auto& node) { return sp.area(node); });
