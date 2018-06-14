@@ -38,7 +38,7 @@ TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThat
     ASSERT_FALSE(sut.divide(min_width, min_height, width, height));
 }
 
-TEST_F(TestSpatialLevelGenerator, envTest)
+TEST_F(TestSpatialLevelGenerator, twoRooms)
 {
     EXPECT_CALL(rngMock, generate(0, 1)).WillRepeatedly(testing::Return(0));
     EXPECT_CALL(rngMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
@@ -56,7 +56,7 @@ TEST_F(TestSpatialLevelGenerator, envTest)
     std::vector<SpacePartition::area_t> actual(size);
     boost::range::transform(sut.nodes(), actual.begin(), [this](const auto &node) { return sut.area(node); });
     EXPECT_THAT(actual, ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{begin, height, begin, width},
-                            SpacePartition::area_t{begin, height, min_width, width},
-                            SpacePartition::area_t{begin, height, begin, min_width}));
+                            SpacePartition::area_t{0, height, 0, width},
+                            SpacePartition::area_t{0, height, 11, width},
+                            SpacePartition::area_t{0, height, 0, 10}));
 }

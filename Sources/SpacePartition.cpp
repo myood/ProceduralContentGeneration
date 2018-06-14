@@ -68,7 +68,7 @@ void SpacePartition::divide(const Node &node)
         divide(
             add_child(node, area_t{area.top, area.bottom, area.left, area.left + split_width}));
         divide(
-            add_child(node, area_t{area.top, area.bottom, area.left + split_width, area.right}));
+            add_child(node, area_t{area.top, area.bottom, area.left + split_width + 1, area.right}));
     }
     else
     {
@@ -78,7 +78,7 @@ void SpacePartition::divide(const Node &node)
         divide(
             add_child(node, area_t{area.top, area.top + split_height, area.left, area.right}));
         divide(
-            add_child(node, area_t{area.top + split_height, area.bottom, area.left, area.right}));
+            add_child(node, area_t{area.top + split_height + 1, area.bottom, area.left, area.right}));
     }
 }
 
