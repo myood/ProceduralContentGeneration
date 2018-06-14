@@ -51,11 +51,7 @@ TEST_F(TestSpatialLevelGenerator, twoRooms)
 
     ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
 
-    const auto size = 3;
-    ASSERT_EQ(size, sut.nodes().size());
-    std::vector<SpacePartition::area_t> actual(size);
-    boost::range::transform(sut.nodes(), actual.begin(), [this](const auto &node) { return sut.area(node); });
-    EXPECT_THAT(actual, ::testing::UnorderedElementsAre(
+    EXPECT_THAT(sut.areas(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{0, height, 0, width},
                             SpacePartition::area_t{0, height, 11, width},
                             SpacePartition::area_t{0, height, 0, 10}));

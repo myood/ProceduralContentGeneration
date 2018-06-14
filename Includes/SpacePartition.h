@@ -24,10 +24,11 @@ public:
     using Node = boost::graph_traits<SpacePartitioningGraph>::vertex_descriptor;
 
     bool divide(int min_room_width, int min_room_height, int space_width, int space_height);
-    std::vector<Node> nodes();
-    area_t area(const Node& node);
+    std::vector<area_t> areas();
 
 private:
+    std::vector<Node> nodes();
+    area_t area(const Node& node);
     bool continueDivision(int min_room_width, int min_room_height, int space_width, int space_height);
     void divide(const Node& node);
     Node add_child(const Node& parent, const area_t& area);

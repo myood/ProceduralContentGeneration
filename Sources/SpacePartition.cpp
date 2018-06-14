@@ -32,6 +32,14 @@ bool SpacePartition::divide(int min_room_width, int min_room_height, int space_w
     return true;
 }
 
+std::vector<SpacePartition::area_t> SpacePartition::areas()
+{
+    const auto ns = nodes();
+    std::vector<SpacePartition::area_t> rv(ns.size());
+    boost::range::transform(ns, rv.begin(), [this](const auto &node) { return area(node); });
+    return rv;
+}
+
 std::vector<SpacePartition::Node> SpacePartition::nodes()
 {
     auto v_it = boost::vertices(graph);
