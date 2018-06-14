@@ -120,8 +120,8 @@ private:
         auto getFunction() { return [this](int min, int max){ return generate(min, max); }; }
     };
 
-static bool operator!=(const SpacePartition::area_t& a1, const SpacePartition::area_t& a2) {
-    return true;
+static bool operator==(const SpacePartition::area_t& lhs, const SpacePartition::area_t& rhs) {
+    return lhs.top == rhs.top and lhs.bottom == rhs.bottom and lhs.left == rhs.left and lhs.right == lhs.right;
 }
 
 TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThatDimension)
