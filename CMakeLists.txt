@@ -36,6 +36,7 @@ add_library(${EXECUTABLE_LIBRARY_NAME}
     Sources/SoundBufferManager.cpp
     Sources/TextureManager.cpp
     Sources/Torch.cpp
+    Sources/SpacePartition.cpp
     Includes/Enemy.h
     Includes/Entity.h
     Includes/Game.h
@@ -55,7 +56,8 @@ add_library(${EXECUTABLE_LIBRARY_NAME}
     Includes/Slime.h
     Includes/SoundBufferManager.h
     Includes/TextureManager.h
-    Includes/Torch.h)
+    Includes/Torch.h
+    Includes/SpacePartition.h)
 target_include_directories(${EXECUTABLE_LIBRARY_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Includes
 	${SFML_INCLUDE_DIR})
