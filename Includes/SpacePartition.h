@@ -19,12 +19,12 @@ public:
 
     struct area_tag { using kind = boost::vertex_property_tag; };
     struct area_t { int top, bottom, left, right; };
-    using areasProperty = boost::property<area_tag, area_t>;
-    using SpacePartitioningGraph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, areasProperty>;
+    using roomsProperty = boost::property<area_tag, area_t>;
+    using SpacePartitioningGraph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, roomsProperty>;
     using Node = boost::graph_traits<SpacePartitioningGraph>::vertex_descriptor;
 
     bool divide(int min_room_width, int min_room_height, int space_width, int space_height);
-    std::vector<area_t> areas();
+    std::vector<area_t> rooms();
 
 private:
     std::vector<Node> nodes();
@@ -35,7 +35,7 @@ private:
 
     RandomNumberGenerator rng;
     SpacePartitioningGraph graph;
-    boost::property_map<SpacePartitioningGraph, area_tag>::type areasMap;
+    boost::property_map<SpacePartitioningGraph, area_tag>::type roomsMap;
     int min_height;
     int min_width;
 };

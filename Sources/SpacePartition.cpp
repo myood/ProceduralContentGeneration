@@ -25,14 +25,14 @@ bool SpacePartition::divide(int min_room_width, int min_room_height, int space_w
     min_width = min_room_width;
     min_height = min_room_height;
     graph = SpacePartitioningGraph();
-    areasMap = boost::get(area_tag(), graph);
+    roomsMap = boost::get(area_tag(), graph);
     auto root = add_vertex(graph);
-    boost::put(areasMap, root, area_t{0, space_height, 0, space_width});
+    boost::put(roomsMap, root, area_t{0, space_height, 0, space_width});
     divide(root);
     return true;
 }
 
-std::vector<SpacePartition::area_t> SpacePartition::areas()
+std::vector<SpacePartition::area_t> SpacePartition::rooms()
 {
     const auto ns = nodes();
     std::vector<SpacePartition::area_t> rv(ns.size());
@@ -48,7 +48,7 @@ std::vector<SpacePartition::Node> SpacePartition::nodes()
 
 SpacePartition::area_t SpacePartition::area(const Node &node)
 {
-    return boost::get(areasMap, node);
+    return boost::get(roomsMap, node);
 }
 
 bool SpacePartition::continueDivision(int min_room_width, int min_room_height, int space_width, int space_height)
@@ -58,7 +58,7 @@ bool SpacePartition::continueDivision(int min_room_width, int min_room_height, i
 
 void SpacePartition::divide(const Node &node)
 {
-    const auto area = boost::get(areasMap, node);
+    const auto area = boost::get(roomsMap, node);
     const auto width = area.right - area.left;
     const auto height = area.bottom - area.top;
 
@@ -92,7 +92,7 @@ void SpacePartition::divide(const Node &node)
 SpacePartition::Node SpacePartition::add_child(const Node &parent, const area_t &area)
 {
     auto child = add_vertex(graph);
-    boost::put(areasMap, child, area);
+    boost::put(roomsMap, child, area);
     boost::add_edge(parent, child, graph);
     return child;
 }
