@@ -72,7 +72,7 @@ TEST_F(TestSpatialLevelGenerator, twoRoomsVertically)
                             SpacePartition::area_t{0, 10, 0, width}));
 }
 
-TEST_F(TestSpatialLevelGenerator, fourRoomsHorizontally)
+TEST_F(TestSpatialLevelGenerator, threeRoomsHorizontally)
 {
     EXPECT_CALL(rngMock, generate(testing::_ /*min*/, testing::_ /*max*/)).WillRepeatedly(testing::Invoke(
         [](int min, int max) { return (min == 0 and max == 1) ? 0 : 10; }));
