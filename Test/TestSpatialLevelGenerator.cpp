@@ -47,7 +47,6 @@ TEST_F(TestSpatialLevelGenerator, twoRoomsHorizontally)
     const auto min_width = 10;
     const auto height = 20;
     const auto width = 20;
-    const auto begin = 0;
 
     ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
 
@@ -66,7 +65,6 @@ TEST_F(TestSpatialLevelGenerator, twoRoomsVertically)
     const auto min_width = 10;
     const auto height = 20;
     const auto width = 20;
-    const auto begin = 0;
 
     ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
 
@@ -74,4 +72,24 @@ TEST_F(TestSpatialLevelGenerator, twoRoomsVertically)
                             SpacePartition::area_t{0, height, 0, width},
                             SpacePartition::area_t{11, height, 0, width},
                             SpacePartition::area_t{0, 10, 0, width}));
+}
+
+TEST_F(TestSpatialLevelGenerator, fourRoomsHorizontally)
+{
+    EXPECT_CALL(rngMock, generate(testing::_ /*min*/, testing::_ /*max*/)).WillRepeatedly(testing::Invoke(
+        [](int min, int max) { return (min == 0 and max == 1) ? 0 : 10; }));
+
+    const auto min_height = 10;
+    const auto min_width = 10;
+    const auto height = 40;
+    const auto width = 40;
+
+    ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
+
+    EXPECT_THAT(sut.areas(), ::testing::UnorderedElementsAre(
+                            SpacePartition::area_t{0, height, 0, width},
+                            SpacePartition::area_t{0, height, 11, width},
+                            SpacePartition::area_t{0, height, 0, 10},
+                            SpacePartition::area_t{0, height, 11, 21},
+                            SpacePartition::area_t{0, height, 22, width}));
 }

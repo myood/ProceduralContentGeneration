@@ -67,8 +67,7 @@ void SpacePartition::divide(const Node &node)
         return;
     }
 
-    int split_orientation = rng(0, 1);
-    if (split_orientation == 0)
+    if (rng(0, 1) == 0)
     {
         const auto random_min_width = min_width;
         const auto random_max_width = width - min_width;
