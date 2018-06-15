@@ -51,7 +51,6 @@ TEST_F(TestSpatialLevelGenerator, twoRoomsHorizontally)
     ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height, 0, width},
                             SpacePartition::area_t{0, height, 11, width},
                             SpacePartition::area_t{0, height, 0, 10}));
 }
@@ -69,7 +68,6 @@ TEST_F(TestSpatialLevelGenerator, twoRoomsVertically)
     ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height, 0, width},
                             SpacePartition::area_t{11, height, 0, width},
                             SpacePartition::area_t{0, 10, 0, width}));
 }
@@ -87,8 +85,6 @@ TEST_F(TestSpatialLevelGenerator, fourRoomsHorizontally)
     ASSERT_TRUE(sut.divide(min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height, 0, width},
-                            SpacePartition::area_t{0, height, 11, width},
                             SpacePartition::area_t{0, height, 0, 10},
                             SpacePartition::area_t{0, height, 11, 21},
                             SpacePartition::area_t{0, height, 22, width}));
