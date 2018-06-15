@@ -18,17 +18,20 @@ SpacePartition::SpacePartition(RandomNumberGenerator rng)
 }
 
 bool SpacePartition::divide(uint max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
-{
-    if (not continueDivision(min_room_width, min_room_height, space_width, space_height))
-    {
-        return false;
-    }
+{   
+    max_rooms = max_rooms;
     min_width = min_room_width;
     min_height = min_room_height;
     graph = SpacePartitioningGraph();
     roomsMap = boost::get(area_tag(), graph);
     auto root = add_vertex(graph);
     boost::put(roomsMap, root, area_t{0, space_height, 0, space_width});
+
+    if (not continueDivision(min_room_width, min_room_height, space_width, space_height))
+    {
+        return false;
+    }
+
     divide(root);
     return true;
 }
@@ -58,6 +61,10 @@ SpacePartition::area_t SpacePartition::area(const Node &node)
 
 bool SpacePartition::continueDivision(int min_room_width, int min_room_height, int space_width, int space_height)
 {
+    if (rooms().size() >= max_rooms)
+    {
+        return false;
+    }
     return min_room_width <= floor(space_width / 2) and min_room_height <= floor(space_height / 2.0);
 }
 

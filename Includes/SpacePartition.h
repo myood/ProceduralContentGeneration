@@ -38,6 +38,7 @@ private:
     boost::property_map<SpacePartitioningGraph, area_tag>::type roomsMap;
     int min_height;
     int min_width;
+    int max_rooms;
 };
 
 bool operator==(const SpacePartition::area_t &lhs, const SpacePartition::area_t &rhs);
