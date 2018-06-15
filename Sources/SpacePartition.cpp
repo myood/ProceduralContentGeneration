@@ -9,6 +9,7 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/algorithm/transform.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
 
 using RandomNumberGenerator = std::function<int(int min, int max)>;
 SpacePartition::SpacePartition(RandomNumberGenerator rng)
@@ -34,7 +35,11 @@ bool SpacePartition::divide(int min_room_width, int min_room_height, int space_w
 
 std::vector<SpacePartition::area_t> SpacePartition::rooms()
 {
-    const auto ns = nodes();
+    auto ns = nodes();
+    boost::remove_erase_if(ns, [this](const auto& node){
+        const auto it = boost::out_edges(node, graph);
+        return it.first != it.second;
+    });
     std::vector<SpacePartition::area_t> rv(ns.size());
     boost::range::transform(ns, rv.begin(), [this](const auto &node) { return area(node); });
     return rv;
