@@ -17,7 +17,7 @@ SpacePartition::SpacePartition(RandomNumberGenerator rng)
 {
 }
 
-bool SpacePartition::divide(int min_room_width, int min_room_height, int space_width, int space_height)
+bool SpacePartition::divide(uint max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
 {
     if (not continueDivision(min_room_width, min_room_height, space_width, space_height))
     {

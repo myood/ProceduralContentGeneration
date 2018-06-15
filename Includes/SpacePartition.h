@@ -23,7 +23,7 @@ public:
     using SpacePartitioningGraph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, roomsProperty>;
     using Node = boost::graph_traits<SpacePartitioningGraph>::vertex_descriptor;
 
-    bool divide(int min_room_width, int min_room_height, int space_width, int space_height);
+    bool divide(uint max_rooms, int min_room_width, int min_room_height, int space_width, int space_height);
     std::vector<area_t> rooms();
 
 private:
