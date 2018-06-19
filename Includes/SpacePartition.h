@@ -15,7 +15,8 @@ class SpacePartition
 {
 public:
     using RandomNumberGenerator = std::function<int(int min, int max)>;
-    SpacePartition(RandomNumberGenerator rng);
+    using RandomBoolGenerator = std::function<bool()>;
+    SpacePartition(RandomNumberGenerator randomNumber, RandomBoolGenerator randomBool);
 
     struct area_tag { using kind = boost::vertex_property_tag; };
     struct area_t { int top, bottom, left, right; };
@@ -23,7 +24,7 @@ public:
     using SpacePartitioningGraph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, roomsProperty>;
     using Node = boost::graph_traits<SpacePartitioningGraph>::vertex_descriptor;
 
-    bool divide(uint max_rooms, int min_room_width, int min_room_height, int space_width, int space_height);
+    bool divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height);
     std::vector<area_t> rooms();
 
 private:
@@ -33,7 +34,8 @@ private:
     void divide(const Node& node);
     Node add_child(const Node& parent, const area_t& area);
 
-    RandomNumberGenerator rng;
+    RandomNumberGenerator randomNumber;
+    RandomBoolGenerator randomBool;
     SpacePartitioningGraph graph;
     boost::property_map<SpacePartitioningGraph, area_tag>::type roomsMap;
     int min_height;

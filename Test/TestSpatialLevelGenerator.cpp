@@ -19,10 +19,19 @@ struct RngMock
     }
 };
 
+struct RbgMock
+{
+    MOCK_METHOD0(generate, bool());
+    auto getFunction()
+    {
+        return [this](){ return generate(); };
+    }
+};
+
 struct TestSpatialLevelGenerator : public testing::Test
 {
     TestSpatialLevelGenerator()
-    : sut(rngMock.getFunction())
+    : sut(rngMock.getFunction(), rbgMock.getFunction())
     {}
 
     const int min_height = 2;
@@ -31,6 +40,7 @@ struct TestSpatialLevelGenerator : public testing::Test
     const int width = 3;
 
     RngMock rngMock;
+    RbgMock rbgMock;
     SpacePartition sut;
 };
 
@@ -51,6 +61,7 @@ struct TestSpatialLevelGenerator_Size20 : TestSpatialLevelGenerator
     TestSpatialLevelGenerator_Size20()
     {
         EXPECT_CALL(rngMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
+        ON_CALL(rbgMock, generate()).WillByDefault(testing::Return(true));
     }
     
     const uint max_rooms = 100;
@@ -89,6 +100,7 @@ struct TestSpatialLevelGenerator_Size40 : TestSpatialLevelGenerator
         EXPECT_CALL(rngMock, generate(testing::_ /*min*/, testing::_ /*max*/))
         .WillRepeatedly(testing::Invoke(
             [](int min, int max) { return (min == 0 and max == 1) ? 0 : 10; }));
+        ON_CALL(rbgMock, generate()).WillByDefault(testing::Return(true));
     }
     
     const int min_height = 10;

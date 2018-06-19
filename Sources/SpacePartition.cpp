@@ -11,15 +11,15 @@
 #include <boost/range/algorithm/transform.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
 
-using RandomNumberGenerator = std::function<int(int min, int max)>;
-SpacePartition::SpacePartition(RandomNumberGenerator rng)
-    : rng(rng)
+SpacePartition::SpacePartition(SpacePartition::RandomNumberGenerator randomNumber, SpacePartition::RandomBoolGenerator randomBool)
+    : randomNumber(randomNumber)
+    , randomBool(randomBool)
 {
 }
 
-bool SpacePartition::divide(uint max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
+bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
 {   
-    max_rooms = max_rooms;
+    max_rooms = desired_max_rooms;
     min_width = min_room_width;
     min_height = min_room_height;
     graph = SpacePartitioningGraph();
@@ -61,11 +61,8 @@ SpacePartition::area_t SpacePartition::area(const Node &node)
 
 bool SpacePartition::continueDivision(int min_room_width, int min_room_height, int space_width, int space_height)
 {
-    if (rooms().size() >= max_rooms)
-    {
-        return false;
-    }
-    return min_room_width <= floor(space_width / 2) and min_room_height <= floor(space_height / 2.0);
+    return (rooms().size() < max_rooms) and
+        (min_room_width <= floor(space_width / 2) and min_room_height <= floor(space_height / 2.0));
 }
 
 void SpacePartition::divide(const Node &node)
@@ -79,11 +76,11 @@ void SpacePartition::divide(const Node &node)
         return;
     }
 
-    if (rng(0, 1) == 0)
+    if (randomNumber(0, 1) == 0)
     {
         const auto random_min_width = min_width;
         const auto random_max_width = width - min_width;
-        const auto split_width = rng(random_min_width, random_max_width);
+        const auto split_width = randomNumber(random_min_width, random_max_width);
         divide(
             add_child(node, area_t{area.top, area.bottom, area.left, area.left + split_width}));
         divide(
@@ -93,7 +90,7 @@ void SpacePartition::divide(const Node &node)
     {
         const auto random_min_height = min_height;
         const auto random_max_height = height - min_height;
-        const auto split_height = rng(random_min_height, random_max_height);
+        const auto split_height = randomNumber(random_min_height, random_max_height);
         divide(
             add_child(node, area_t{area.top, area.top + split_height, area.left, area.right}));
         divide(
