@@ -10,7 +10,7 @@
 #include <boost/range/algorithm/transform.hpp>
 #include "SpacePartition.h"
 
-struct RngMock
+struct RandomNumberMock
 {
     MOCK_METHOD2(generate, int(int, int));
     auto getFunction()
@@ -19,7 +19,7 @@ struct RngMock
     }
 };
 
-struct RbgMock
+struct RandomBoolMock
 {
     MOCK_METHOD0(generate, bool());
     auto getFunction()
@@ -31,7 +31,7 @@ struct RbgMock
 struct TestSpatialLevelGenerator : public testing::Test
 {
     TestSpatialLevelGenerator()
-    : sut(rngMock.getFunction(), rbgMock.getFunction())
+    : sut(randomNumberMock.getFunction(), randomBoolMock.getFunction())
     {}
 
     const int min_height = 2;
@@ -39,8 +39,8 @@ struct TestSpatialLevelGenerator : public testing::Test
     const int height = 3;
     const int width = 3;
 
-    RngMock rngMock;
-    RbgMock rbgMock;
+    RandomNumberMock randomNumberMock;
+    RandomBoolMock randomBoolMock;
     SpacePartition sut;
 };
 
@@ -60,8 +60,8 @@ struct TestSpatialLevelGenerator_Size20 : TestSpatialLevelGenerator
 {
     TestSpatialLevelGenerator_Size20()
     {
-        EXPECT_CALL(rngMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
-        ON_CALL(rbgMock, generate()).WillByDefault(testing::Return(true));
+        EXPECT_CALL(randomNumberMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
+        ON_CALL(randomBoolMock, generate()).WillByDefault(testing::Return(true));
     }
     
     const uint max_rooms = 100;
@@ -73,7 +73,7 @@ struct TestSpatialLevelGenerator_Size20 : TestSpatialLevelGenerator
 
 TEST_F(TestSpatialLevelGenerator_Size20, horizontally)
 {
-    EXPECT_CALL(rngMock, generate(0, 1)).WillRepeatedly(testing::Return(0));
+    EXPECT_CALL(randomNumberMock, generate(0, 1)).WillRepeatedly(testing::Return(0));
 
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
@@ -84,7 +84,7 @@ TEST_F(TestSpatialLevelGenerator_Size20, horizontally)
 
 TEST_F(TestSpatialLevelGenerator_Size20, vertically)
 {
-    EXPECT_CALL(rngMock, generate(0, 1)).WillRepeatedly(testing::Return(1));
+    EXPECT_CALL(randomNumberMock, generate(0, 1)).WillRepeatedly(testing::Return(1));
 
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
@@ -97,10 +97,10 @@ struct TestSpatialLevelGenerator_Size40 : TestSpatialLevelGenerator
 {
     TestSpatialLevelGenerator_Size40()
     {
-        EXPECT_CALL(rngMock, generate(testing::_ /*min*/, testing::_ /*max*/))
+        EXPECT_CALL(randomNumberMock, generate(testing::_ /*min*/, testing::_ /*max*/))
         .WillRepeatedly(testing::Invoke(
             [](int min, int max) { return (min == 0 and max == 1) ? 0 : 10; }));
-        ON_CALL(rbgMock, generate()).WillByDefault(testing::Return(true));
+        ON_CALL(randomBoolMock, generate()).WillByDefault(testing::Return(true));
     }
     
     const int min_height = 10;
@@ -128,4 +128,22 @@ TEST_F(TestSpatialLevelGenerator_Size40, stopSplitWhenMaxRoomsReached)
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{0, height, 0, 10},
                             SpacePartition::area_t{0, height, 11, width}));
+}
+
+TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit)
+{
+    int i = 0;
+    EXPECT_CALL(randomBoolMock, generate()).WillRepeatedly(testing::Invoke([&i](){ return static_cast<bool>(++i); }));
+
+    const uint max_rooms = 9;
+    ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, 100, 100));
+
+    ASSERT_EQ(sut.rooms().size(), max_rooms);
+    auto get_width = [](const auto& room) { return room.right - room.left; };
+    auto get_height = [](const auto& room) { return room.bottom - room.top; };
+    for (auto&& room : sut.rooms())
+    {
+        ASSERT_TRUE(get_width(room) >= min_width);
+        ASSERT_TRUE(get_height(room) >= min_height);
+    }
 }
