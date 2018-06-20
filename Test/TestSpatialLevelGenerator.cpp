@@ -32,7 +32,8 @@ struct TestSpatialLevelGenerator : public testing::Test
 {
     TestSpatialLevelGenerator()
     : sut(randomNumberMock.getFunction(), randomBoolMock.getFunction())
-    {}
+    {
+    }
 
     const int min_height = 2;
     const int min_width = 2;
@@ -133,7 +134,9 @@ TEST_F(TestSpatialLevelGenerator_Size40, stopSplitWhenMaxRoomsReached)
 TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit)
 {
     int i = 0;
-    EXPECT_CALL(randomBoolMock, generate()).WillRepeatedly(testing::Invoke([&i](){ return static_cast<bool>(++i); }));
+    EXPECT_CALL(randomBoolMock, generate())
+    .Times(testing::AtLeast(1))
+    .WillRepeatedly(testing::Invoke([&i](){ return static_cast<bool>(++i); }));
 
     const uint max_rooms = 9;
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, 100, 100));
