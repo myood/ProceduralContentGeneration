@@ -150,3 +150,23 @@ TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit)
         ASSERT_TRUE(get_height(room) >= min_height);
     }
 }
+
+TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit_maxRooms100)
+{
+    int i = 0;
+    EXPECT_CALL(randomBoolMock, generate())
+    .Times(testing::AtLeast(1))
+    .WillRepeatedly(testing::Invoke([&i](){ return static_cast<bool>(++i); }));
+
+    const uint max_rooms = 100;
+    ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, 100, 100));
+
+    ASSERT_EQ(sut.rooms().size(), max_rooms);
+    auto get_width = [](const auto& room) { return room.right - room.left; };
+    auto get_height = [](const auto& room) { return room.bottom - room.top; };
+    for (auto&& room : sut.rooms())
+    {
+        ASSERT_TRUE(get_width(room) >= min_width);
+        ASSERT_TRUE(get_height(room) >= min_height);
+    }
+}
