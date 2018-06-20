@@ -29,6 +29,7 @@ public:
 
 private:
     std::vector<Node> nodes();
+    std::vector<Node> leaves();
     area_t area(const Node& node);
     bool continueDivision(int min_room_width, int min_room_height, int space_width, int space_height);
     void divide(const Node& node);

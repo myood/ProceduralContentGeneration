@@ -32,19 +32,24 @@ bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_
         return false;
     }
 
-    divide(root);
+    while (leaves().size() < max_rooms)
+    {
+        for (const auto& n : leaves())
+        {
+            if (randomBool())
+            {
+                divide(n);
+            }
+        }
+    };
     return true;
 }
 
 std::vector<SpacePartition::area_t> SpacePartition::rooms()
 {
-    auto ns = nodes();
-    boost::remove_erase_if(ns, [this](const auto& node){
-        const auto it = boost::out_edges(node, graph);
-        return it.first != it.second;
-    });
-    std::vector<SpacePartition::area_t> rv(ns.size());
-    boost::range::transform(ns, rv.begin(), [this](const auto &node) { return area(node); });
+    auto ls = leaves();
+    std::vector<SpacePartition::area_t> rv(ls.size());
+    boost::range::transform(ls, rv.begin(), [this](const auto &node) { return area(node); });
     return rv;
 }
 
@@ -54,6 +59,16 @@ std::vector<SpacePartition::Node> SpacePartition::nodes()
     return std::vector<Node>(v_it.first, v_it.second);
 }
 
+std::vector<SpacePartition::Node> SpacePartition::leaves()
+{
+    auto ns = nodes();
+    boost::remove_erase_if(ns, [this](const auto& node){
+        const auto it = boost::out_edges(node, graph);
+        return it.first != it.second;
+    });
+    return ns;
+}
+
 SpacePartition::area_t SpacePartition::area(const Node &node)
 {
     return boost::get(roomsMap, node);
@@ -61,7 +76,7 @@ SpacePartition::area_t SpacePartition::area(const Node &node)
 
 bool SpacePartition::continueDivision(int min_room_width, int min_room_height, int space_width, int space_height)
 {
-    return (rooms().size() < max_rooms) and
+    return (leaves().size() < max_rooms) and
         (min_room_width <= floor(space_width / 2) and min_room_height <= floor(space_height / 2.0));
 }
 
@@ -81,20 +96,16 @@ void SpacePartition::divide(const Node &node)
         const auto random_min_width = min_width;
         const auto random_max_width = width - min_width;
         const auto split_width = randomNumber(random_min_width, random_max_width);
-        divide(
-            add_child(node, area_t{area.top, area.bottom, area.left, area.left + split_width}));
-        divide(
-            add_child(node, area_t{area.top, area.bottom, area.left + split_width + 1, area.right}));
+        add_child(node, area_t{area.top, area.bottom, area.left, area.left + split_width});
+        add_child(node, area_t{area.top, area.bottom, area.left + split_width + 1, area.right});
     }
     else
     {
         const auto random_min_height = min_height;
         const auto random_max_height = height - min_height;
         const auto split_height = randomNumber(random_min_height, random_max_height);
-        divide(
-            add_child(node, area_t{area.top, area.top + split_height, area.left, area.right}));
-        divide(
-            add_child(node, area_t{area.top + split_height + 1, area.bottom, area.left, area.right}));
+        add_child(node, area_t{area.top, area.top + split_height, area.left, area.right});
+        add_child(node, area_t{area.top + split_height + 1, area.bottom, area.left, area.right});
     }
 }
 

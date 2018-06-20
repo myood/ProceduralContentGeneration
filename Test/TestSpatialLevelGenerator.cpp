@@ -47,7 +47,7 @@ struct TestSpatialLevelGenerator : public testing::Test
 
 TEST_F(TestSpatialLevelGenerator, doesNotAcceptMinDimensionGreaterThenHalfOfThatDimension)
 {
-    const auto max_rooms = 100;
+    const auto max_rooms = 3;
     ASSERT_FALSE(sut.divide(max_rooms, min_width, min_height, width, height));
 }
 
@@ -65,7 +65,7 @@ struct TestSpatialLevelGenerator_Size20 : TestSpatialLevelGenerator
         ON_CALL(randomBoolMock, generate()).WillByDefault(testing::Return(true));
     }
     
-    const uint max_rooms = 100;
+    const uint max_rooms = 2;
     const int min_height = 10;
     const int min_width = 10;
     const int height = 20;
@@ -112,7 +112,7 @@ struct TestSpatialLevelGenerator_Size40 : TestSpatialLevelGenerator
 
 TEST_F(TestSpatialLevelGenerator_Size40, horizontally)
 {
-    const uint max_rooms = 100;
+    const uint max_rooms = 3;
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
