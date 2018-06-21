@@ -9,6 +9,7 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/algorithm/transform.hpp>
+#include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
 
 uint SpacePartition::area_t::width() const
@@ -43,9 +44,19 @@ bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_
         return false;
     }
 
-    while (leaves().size() < max_rooms)
+    while (true)
     {
-        for (const auto& n : leaves())
+        auto lv = leaves();
+        if (lv.size() >= max_rooms)
+        {
+            return true;
+        }
+        auto l = lv | boost::adaptors::filtered([this](const auto& n){ return isDivisible(area(n)); });
+        if (l.empty())
+        {
+            return true;
+        }
+        for (const auto& n : l)
         {
             if (randomBool())
             {
