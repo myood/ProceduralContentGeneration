@@ -72,6 +72,14 @@ struct TestSpatialLevelGenerator_Size20 : TestSpatialLevelGenerator
     const int width = 20;
 };
 
+TEST_F(TestSpatialLevelGenerator_Size20, doesNotAcceptZeroRoomsOrOneRoom)
+{
+    auto max_rooms = 0u;
+    ASSERT_FALSE(sut.divide(max_rooms, min_width, min_height, width, height));
+    max_rooms = 1u;
+    ASSERT_FALSE(sut.divide(max_rooms, min_width, min_height, width, height));
+}
+
 TEST_F(TestSpatialLevelGenerator_Size20, horizontally)
 {
     EXPECT_CALL(randomNumberMock, generate(0, 1)).WillRepeatedly(testing::Return(0));
