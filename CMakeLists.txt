@@ -74,6 +74,7 @@ find_package(GTest REQUIRED)
 set(TEST_EXECUTABLE_NAME Test${EXECUTABLE_NAME})
 add_executable(${TEST_EXECUTABLE_NAME}
     Test/main.cpp
+    Test/TestSpacePartition.cpp
     Test/TestSpatialLevelGenerator.cpp)
 find_package(Boost REQUIRED
     COMPONENTS graph)
