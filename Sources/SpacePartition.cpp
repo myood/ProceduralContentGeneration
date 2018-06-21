@@ -121,7 +121,7 @@ void SpacePartition::divide(const Node &node)
         const auto random_max_width = area.width() - min_width;
         const auto split_width = randomNumber(random_min_width, random_max_width);
         add_child(node, area_t{area.top, area.bottom, area.left, area.left + split_width});
-        add_child(node, area_t{area.top, area.bottom, area.left + split_width + 1, area.right});
+        add_child(node, area_t{area.top, area.bottom, area.left + split_width, area.right});
     }
     else
     {
@@ -129,7 +129,7 @@ void SpacePartition::divide(const Node &node)
         const auto random_max_height = area.height() - min_height;
         const auto split_height = randomNumber(random_min_height, random_max_height);
         add_child(node, area_t{area.top, area.top + split_height, area.left, area.right});
-        add_child(node, area_t{area.top + split_height + 1, area.bottom, area.left, area.right});
+        add_child(node, area_t{area.top + split_height, area.bottom, area.left, area.right});
     }
 }
 

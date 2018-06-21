@@ -87,7 +87,7 @@ TEST_F(TestSpacePartition_Size20, horizontally)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height, 11, width},
+                            SpacePartition::area_t{0, height, 10, width},
                             SpacePartition::area_t{0, height, 0, 10}));
 }
 
@@ -98,7 +98,7 @@ TEST_F(TestSpacePartition_Size20, vertically)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{11, height, 0, width},
+                            SpacePartition::area_t{10, height, 0, width},
                             SpacePartition::area_t{0, 10, 0, width}));
 }
 
@@ -125,8 +125,8 @@ TEST_F(TestSpacePartition_Size40, horizontally)
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{0, height, 0, 10},
-                            SpacePartition::area_t{0, height, 11, 21},
-                            SpacePartition::area_t{0, height, 22, width}));
+                            SpacePartition::area_t{0, height, 10, 20},
+                            SpacePartition::area_t{0, height, 20, width}));
 }
 
 TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
@@ -136,7 +136,7 @@ TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{0, height, 0, 10},
-                            SpacePartition::area_t{0, height, 11, width}));
+                            SpacePartition::area_t{0, height, 10, width}));
 }
 
 TEST_F(TestSpacePartition_Size40, pseudoRandomSplit)
@@ -169,7 +169,7 @@ TEST_F(TestSpacePartition_Size40, pseudoRandomSplit_maxRooms100)
     const uint overshot_max_rooms = 100;
     ASSERT_TRUE(sut.divide(overshot_max_rooms, min_width, min_height, 100, 100));
 
-    const uint realistic_max_rooms = 9;
+    const uint realistic_max_rooms = 10;
     ASSERT_EQ(sut.rooms().size(), realistic_max_rooms);
     auto get_width = [](const auto& room) { return room.right - room.left; };
     auto get_height = [](const auto& room) { return room.bottom - room.top; };
