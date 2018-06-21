@@ -166,10 +166,11 @@ TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit_maxRooms100)
     .Times(testing::AtLeast(1))
     .WillRepeatedly(testing::Invoke([&i](){ return static_cast<bool>(++i); }));
 
-    const uint max_rooms = 100;
-    ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, 100, 100));
+    const uint overshot_max_rooms = 100;
+    ASSERT_TRUE(sut.divide(overshot_max_rooms, min_width, min_height, 100, 100));
 
-    ASSERT_EQ(sut.rooms().size(), max_rooms);
+    const uint realistic_max_rooms = 9;
+    ASSERT_EQ(sut.rooms().size(), realistic_max_rooms);
     auto get_width = [](const auto& room) { return room.right - room.left; };
     auto get_height = [](const auto& room) { return room.bottom - room.top; };
     for (auto&& room : sut.rooms())
