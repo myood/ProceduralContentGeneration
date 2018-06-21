@@ -151,7 +151,7 @@ TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit)
     }
 }
 
-TEST_F(TestSpatialLevelGenerator_Size40, pseudoRandomSplit_maxRooms100)
+TEST_F(TestSpatialLevelGenerator_Size40, DISABLED_pseudoRandomSplit_maxRooms100)
 {
     int i = 0;
     EXPECT_CALL(randomBoolMock, generate())
