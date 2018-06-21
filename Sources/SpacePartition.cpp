@@ -38,7 +38,7 @@ bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_
     const auto wholeSpace = area_t{0, space_height, 0, space_width};
     boost::put(roomsMap, root, wholeSpace);
 
-    if (not isDivisible(wholeSpace))
+    if (not isDivisible(wholeSpace) or max_rooms <= 1)
     {
         return false;
     }
