@@ -90,8 +90,8 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5)
         SpacePartition::area_t{ 0, 0, 4, 4 },
         SpacePartition::area_t{ 0, 5, 4, 9 }
     };
-    const auto width = 10;
-    const auto height = 5;
+    const auto width = 5;
+    const auto height = 10;
     const auto W = TILE::WALL_SINGLE;
     const auto F = TILE::FLOOR;
     auto expectedGrid = std::vector<std::vector<TILE>>{
