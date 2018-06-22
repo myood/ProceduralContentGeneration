@@ -37,7 +37,7 @@ bool operator==(const Grid& lhs, const Grid& rhs)
 
 auto createGrid = [](int width, int height, std::vector<SpacePartition::area_t> areas)
 { 
-    auto grid = std::vector<std::vector<TILE>>(width, std::vector<TILE>(height, TILE::FLOOR));
+    auto grid = std::vector<std::vector<TILE>>(height, std::vector<TILE>(width, TILE::FLOOR));
     for (const auto& a : areas)
     {
         //top 5, bottom 10, left 3, right 7
@@ -90,8 +90,8 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5)
         SpacePartition::area_t{ 0, 0, 4, 4 },
         SpacePartition::area_t{ 0, 5, 4, 9 }
     };
-    const auto width = 5;
-    const auto height = 10;
+    const auto width = 10;
+    const auto height = 5;
     const auto W = TILE::WALL_SINGLE;
     const auto F = TILE::FLOOR;
     auto expectedGrid = std::vector<std::vector<TILE>>{
