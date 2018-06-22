@@ -21,7 +21,7 @@ public:
     struct area_tag { using kind = boost::vertex_property_tag; };
     struct area_t
     { 
-        int top, bottom, left, right; 
+        int top, left, bottom, right; 
         uint width() const;
         uint height() const;
     };

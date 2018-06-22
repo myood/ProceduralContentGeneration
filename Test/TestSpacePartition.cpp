@@ -87,8 +87,8 @@ TEST_F(TestSpacePartition_Size20, horizontally)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height - 1, 10, width - 1},
-                            SpacePartition::area_t{0, height - 1, 0, 9}));
+                            SpacePartition::area_t{0, 10, height - 1, width - 1},
+                            SpacePartition::area_t{0, 0, height - 1, 9}));
 }
 
 TEST_F(TestSpacePartition_Size20, vertically)
@@ -98,8 +98,8 @@ TEST_F(TestSpacePartition_Size20, vertically)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{10, height - 1, 0, width - 1},
-                            SpacePartition::area_t{0, 9, 0, width - 1}));
+                            SpacePartition::area_t{10, 0, height - 1, width - 1},
+                            SpacePartition::area_t{0, 0, 9, width - 1}));
 }
 
 struct TestSpacePartition_Size40 : TestSpacePartition
@@ -124,9 +124,9 @@ TEST_F(TestSpacePartition_Size40, horizontally)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height - 1, 0, 9},
-                            SpacePartition::area_t{0, height - 1, 10, 19},
-                            SpacePartition::area_t{0, height - 1, 20, width - 1}));
+                            SpacePartition::area_t{0, 0, height - 1, 9},
+                            SpacePartition::area_t{0, 10, height - 1, 19},
+                            SpacePartition::area_t{0, 20, height - 1, width - 1}));
 }
 
 TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
@@ -135,8 +135,8 @@ TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, height - 1, 0, 9},
-                            SpacePartition::area_t{0, height - 1, 10, width - 1}));
+                            SpacePartition::area_t{0, 0, height - 1, 9},
+                            SpacePartition::area_t{0, 10, height - 1, width - 1}));
 }
 
 struct TestSpacePartition_Size40_PseudoRandom : public TestSpacePartition_Size40

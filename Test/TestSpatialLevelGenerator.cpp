@@ -58,10 +58,10 @@ TEST(TestSpatialLevelGenerator, shouldRecreateSize)
         return grid;
     };
     const auto areas = std::vector<SpacePartition::area_t>{
-        SpacePartition::area_t{ 0, 9, 0, 9 },
+        SpacePartition::area_t{ 0, 0, 9, 9 },
         SpacePartition::area_t{ 0, 10, 10, 19 },
-        SpacePartition::area_t{ 10, 19, 0, 9 },
-        SpacePartition::area_t{ 10, 19, 10, 19 },
+        SpacePartition::area_t{ 10, 0, 19, 9 },
+        SpacePartition::area_t{ 10, 10, 19, 19 },
     };
     const auto width = 20;
     const auto height = 20;
