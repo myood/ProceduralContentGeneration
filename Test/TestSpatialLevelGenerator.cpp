@@ -104,3 +104,24 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5)
 
     ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
 }
+
+TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_OverlappingWalls)
+{
+    const auto areas = std::vector<SpacePartition::area_t>{
+        SpacePartition::area_t{ 0, 0, 4, 4 },
+        SpacePartition::area_t{ 0, 4, 4, 9 }
+    };
+    const auto width = 10;
+    const auto height = 5;
+    const auto W = TILE::WALL_SINGLE;
+    const auto F = TILE::FLOOR;
+    auto expectedGrid = std::vector<std::vector<TILE>>{
+        { W, W, W, W, W, W, W, W, W, W },
+        { W, F, F, F, W, F, F, F, F, W },
+        { W, F, F, F, W, F, F, F, F, W },
+        { W, F, F, F, W, F, F, F, F, W },
+        { W, W, W, W, W, W, W, W, W, W }
+    };
+
+    ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
+}
