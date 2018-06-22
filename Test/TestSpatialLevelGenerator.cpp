@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <iostream>
 
 #include "SpacePartition.h"
 #include "Util.h"
+#include <boost/algorithm/string/join.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 
 struct Grid
 {
@@ -16,13 +19,18 @@ bool operator==(const Grid& lhs, const Grid& rhs)
 
 ::std::ostream &operator<<(::std::ostream &os, const Grid& g)
 {
+    auto to_str = [](auto t)
+    {
+        std::ostringstream out;
+        out << std::setw(2) << static_cast<int>(t);
+        return out.str();
+    };
+
+    os << std::endl;
     for (const auto& row : g.tiles)
     {
-        for (const auto& t : row)
-        {
-            os << " " << static_cast<int>(t) << " ";
-        }
-        os << std::endl;
+        os << "[" << boost::algorithm::join(
+            row | boost::adaptors::transformed(to_str), "][") << "]" << std::endl;
     }
     return os;
 }
