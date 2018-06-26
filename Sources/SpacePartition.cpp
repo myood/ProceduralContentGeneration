@@ -148,5 +148,5 @@ bool operator==(const SpacePartition::area_t &lhs, const SpacePartition::area_t 
 
 ::std::ostream &operator<<(::std::ostream &os, const SpacePartition::area_t &area)
 {
-    return os << "[top: " << area.top << ", bottom: " << area.bottom << ", left: " << area.left << ", right: " << area.right << "]";
+    return os << "[top: " << area.top << ", left: " << area.left << ", bottom: " << area.bottom << ", right: " << area.right << "]";
 }

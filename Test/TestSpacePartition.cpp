@@ -124,8 +124,8 @@ TEST_F(TestSpacePartition_Size40, horizontally)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, 0, height - 1, 9},
-                            SpacePartition::area_t{0, 10, height - 1, 19},
+                            SpacePartition::area_t{0, 0, height - 1, 10},
+                            SpacePartition::area_t{0, 10, height - 1, 20},
                             SpacePartition::area_t{0, 20, height - 1, width - 1}));
 }
 
@@ -135,7 +135,7 @@ TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, 0, height - 1, 9},
+                            SpacePartition::area_t{0, 0, height - 1, 10},
                             SpacePartition::area_t{0, 10, height - 1, width - 1}));
 }
 
