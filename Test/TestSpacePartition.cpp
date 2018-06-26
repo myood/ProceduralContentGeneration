@@ -88,7 +88,7 @@ TEST_F(TestSpacePartition_Size20, horizontally)
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{0, 10, height - 1, width - 1},
-                            SpacePartition::area_t{0, 0, height - 1, 9}));
+                            SpacePartition::area_t{0, 0, height - 1, 10}));
 }
 
 TEST_F(TestSpacePartition_Size20, vertically)
@@ -99,7 +99,7 @@ TEST_F(TestSpacePartition_Size20, vertically)
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{10, 0, height - 1, width - 1},
-                            SpacePartition::area_t{0, 0, 9, width - 1}));
+                            SpacePartition::area_t{0, 0, 10, width - 1}));
 }
 
 struct TestSpacePartition_Size40 : TestSpacePartition
