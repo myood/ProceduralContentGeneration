@@ -102,6 +102,22 @@ TEST_F(TestSpacePartition_Size20, vertically)
                             SpacePartition::area_t{0, 0, 10, width - 1}));
 }
 
+TEST_F(TestSpacePartition_Size20, continueSplitIfPossibleInOneDirectionEvenThoughNotPossibleInOther)
+{
+    auto max_rooms = 3u;
+    int i = 0;
+    EXPECT_CALL(randomNumberMock, generate(0, 1))
+    .WillRepeatedly(testing::Invoke(
+        [&i](int min, int max)
+        {
+            return ++i < 10 ? 1 : 0;
+        }));
+
+    ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
+
+    ASSERT_EQ(max_rooms, sut.rooms().size());
+}
+
 struct TestSpacePartition_Size40 : TestSpacePartition
 {
     TestSpacePartition_Size40()

@@ -30,6 +30,7 @@ SpacePartition::SpacePartition(SpacePartition::RandomNumberGenerator randomNumbe
 
 bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
 {   
+    current_rooms_size = 1;
     max_rooms = desired_max_rooms;
     min_width = min_room_width;
     min_height = min_room_height;
@@ -44,14 +45,10 @@ bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_
         return false;
     }
 
-    while (true)
+    while (continueDivision())
     {
         auto lv = leaves();
-        if (lv.size() >= max_rooms)
-        {
-            return true;
-        }
-        auto l = lv | boost::adaptors::filtered([this](const auto& n){ return isDivisible(area(n)); });
+        auto l = lv | boost::adaptors::filtered([this](const auto& n){ return static_cast<bool>(isDivisible(area(n))); });
         if (l.empty())
         {
             return true;
@@ -61,6 +58,10 @@ bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_
             if (randomBool())
             {
                 divide(n);
+                if (not continueDivision())
+                {
+                    return true;
+                }
             }
         }
     };
@@ -75,9 +76,26 @@ std::vector<SpacePartition::area_t> SpacePartition::rooms()
     return rv;
 }
 
-bool SpacePartition::isDivisible(const area_t area) const
+boost::optional<SpacePartition::Orientation> SpacePartition::isDivisible(const area_t area) const
 {
-    return (min_width <= floor(area.width() / 2) and min_height <= floor(area.height() / 2.0));
+    auto vertically = min_width <= floor(area.width() / 2);
+    auto horizontally = min_height <= floor(area.height() / 2.0);
+    if (vertically and horizontally)
+    {
+        return {SpacePartition::Orientation::Both};
+    }
+    else if (vertically and not horizontally)
+    {
+        return {SpacePartition::Orientation::Vertical};
+    }
+    else if (not vertically and horizontally)
+    {
+        return {SpacePartition::Orientation::Horizontal};
+    }
+    else
+    {
+        return {};
+    }
 }
 
 std::vector<SpacePartition::Node> SpacePartition::nodes()
@@ -103,19 +121,30 @@ SpacePartition::area_t SpacePartition::area(const Node &node)
 
 bool SpacePartition::continueDivision()
 {
-    return (leaves().size() < max_rooms);
+    return (num_of_rooms() < max_rooms);
+}
+
+int SpacePartition::num_of_rooms() const
+{
+    return current_rooms_size;
 }
 
 void SpacePartition::divide(const Node &node)
 {
     const auto area = boost::get(roomsMap, node);
 
-    if (not isDivisible(area))
+    auto orientation = isDivisible(area);
+    if (not orientation)
     {
         return;
     }
 
-    if (randomNumber(0, 1) == 0)
+    if (orientation == Orientation::Both)
+    {
+        orientation = (randomNumber(0, 1) == 0 ? Orientation::Vertical : Orientation::Horizontal);
+    }
+
+    if (orientation == Orientation::Vertical)
     {
         const auto random_min_width = min_width;
         const auto random_max_width = area.width() - min_width;
@@ -131,6 +160,8 @@ void SpacePartition::divide(const Node &node)
         add_child(node, area_t{area.top, area.left, area.top + split_height, area.right});
         add_child(node, area_t{area.top + split_height, area.left, area.bottom, area.right});
     }
+
+    current_rooms_size += 1;
 }
 
 SpacePartition::Node SpacePartition::add_child(const Node &parent, const area_t &area)

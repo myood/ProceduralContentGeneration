@@ -10,6 +10,7 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/algorithm/transform.hpp>
+#include <boost/optional.hpp>
 
 class SpacePartition 
 {
@@ -33,11 +34,17 @@ public:
     std::vector<area_t> rooms();
 
 private:
-    bool isDivisible(const area_t) const;
+    enum class Orientation {
+        Vertical,
+        Horizontal,
+        Both
+    };
+    boost::optional<Orientation> isDivisible(const area_t) const;
     std::vector<Node> nodes();
     std::vector<Node> leaves();
     area_t area(const Node& node);
     bool continueDivision();
+    int num_of_rooms() const;
     void divide(const Node& node);
     Node add_child(const Node& parent, const area_t& area);
 
@@ -48,6 +55,7 @@ private:
     int min_height;
     int min_width;
     int max_rooms;
+    int current_rooms_size;
 };
 
 bool operator==(const SpacePartition::area_t &lhs, const SpacePartition::area_t &rhs);
