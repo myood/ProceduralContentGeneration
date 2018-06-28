@@ -40,8 +40,8 @@ struct TestSpacePartition : public testing::Test
     const int height = 3;
     const int width = 3;
 
-    RandomNumberMock randomNumberMock;
-    RandomBoolMock randomBoolMock;
+    testing::NiceMock<RandomNumberMock> randomNumberMock;
+    testing::NiceMock<RandomBoolMock> randomBoolMock;
     SpacePartition sut;
 };
 
@@ -61,7 +61,7 @@ struct TestSpacePartition_Size20 : TestSpacePartition
 {
     TestSpacePartition_Size20()
     {
-        EXPECT_CALL(randomNumberMock, generate(10 /*min*/, 10 /*max*/)).WillRepeatedly(testing::Return(10));
+        ON_CALL(randomNumberMock, generate(10 /*min*/, 10 /*max*/)).WillByDefault(testing::Return(10));
         ON_CALL(randomBoolMock, generate()).WillByDefault(testing::Return(true));
     }
     
@@ -80,20 +80,21 @@ TEST_F(TestSpacePartition_Size20, doesNotAcceptZeroRoomsOrOneRoom)
     ASSERT_FALSE(sut.divide(max_rooms, min_width, min_height, width, height));
 }
 
-TEST_F(TestSpacePartition_Size20, horizontally)
+TEST_F(TestSpacePartition_Size20, horizontallyAndVertically)
 {
-    EXPECT_CALL(randomNumberMock, generate(0, 1)).WillRepeatedly(testing::Return(0));
+    const uint max_rooms = 3;
+    ON_CALL(randomNumberMock, generate(0, 1)).WillByDefault(testing::Return(0));
 
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, 10, height - 1, width - 1},
-                            SpacePartition::area_t{0, 0, height - 1, 10}));
+                            SpacePartition::area_t{0, 10, 19, 19},
+                            SpacePartition::area_t{0, 0, 10, 10},
+                            SpacePartition::area_t{10, 0, 19, 10}));
 }
-
 TEST_F(TestSpacePartition_Size20, vertically)
 {
-    EXPECT_CALL(randomNumberMock, generate(0, 1)).WillRepeatedly(testing::Return(1));
+    ON_CALL(randomNumberMock, generate(0, 1)).WillByDefault(testing::Return(1));
 
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
@@ -106,11 +107,11 @@ TEST_F(TestSpacePartition_Size20, continueSplitIfPossibleInOneDirectionEvenThoug
 {
     auto max_rooms = 3u;
     int i = 0;
-    EXPECT_CALL(randomNumberMock, generate(0, 1))
-    .WillRepeatedly(testing::Invoke(
+    ON_CALL(randomNumberMock, generate(0, 1))
+    .WillByDefault(testing::Invoke(
         [&i](int min, int max)
         {
-            return ++i < 10 ? 1 : 0;
+            return ++i < 2 ? 1 : 0;
         }));
 
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
@@ -140,9 +141,9 @@ TEST_F(TestSpacePartition_Size40, horizontally)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, 0, height - 1, 10},
-                            SpacePartition::area_t{0, 10, height - 1, 20},
-                            SpacePartition::area_t{0, 20, height - 1, width - 1}));
+                            SpacePartition::area_t{0, 0, 10, 10},
+                            SpacePartition::area_t{10, 0, height - 1, 10},
+                            SpacePartition::area_t{0, 10, height - 1, width - 1}));
 }
 
 TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
@@ -186,9 +187,9 @@ TEST_F(TestSpacePartition_Size40_PseudoRandom, pseudoRandomSplit)
 
 TEST_F(TestSpacePartition_Size40_PseudoRandom, overshotMaxRooms)
 {
-    const uint requested_max_rooms = 100;
+    const uint requested_max_rooms = 1000;
     ASSERT_TRUE(sut.divide(requested_max_rooms, min_width, min_height, 100, 100));
-    const uint possible_max_rooms = 10;
-    ASSERT_EQ(sut.rooms().size(), possible_max_rooms);
+    const uint possible_max_rooms = 100;
+    ASSERT_EQ(possible_max_rooms, sut.rooms().size());
     verifyRoomsIntegrity();
 }
