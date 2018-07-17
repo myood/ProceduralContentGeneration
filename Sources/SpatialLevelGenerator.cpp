@@ -51,5 +51,10 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vect
 
 std::vector<std::pair<uint, uint>> createConnections(const std::vector<SpacePartition::area_t>& areas, std::pair<uint, uint> min_max_connections_per_area)
 {
-    return {};
+    std::vector<std::pair<uint, uint>> retval;
+    for (int i = 0; i < areas.size() - 1; ++i)
+    {
+        retval.push_back(std::make_pair(i, i + 1));
+    }
+    return retval;
 }
