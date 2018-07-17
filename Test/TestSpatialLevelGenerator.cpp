@@ -96,3 +96,8 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
 
     ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
 }
+
+TEST(TestSpatialLevelGenerator, createConnections)
+{
+    
+}
