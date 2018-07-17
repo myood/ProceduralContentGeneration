@@ -37,6 +37,7 @@ add_library(${EXECUTABLE_LIBRARY_NAME}
     Sources/TextureManager.cpp
     Sources/Torch.cpp
     Sources/SpacePartition.cpp
+    Sources/SpatialLevelGenerator.cpp
     Includes/Enemy.h
     Includes/Entity.h
     Includes/Game.h
@@ -54,6 +55,8 @@ add_library(${EXECUTABLE_LIBRARY_NAME}
     Includes/Potion.h
     Includes/Projectile.h
     Includes/Slime.h
+    Includes/SpacePartition.h
+    Includes/SpatialLevelGenerator.h
     Includes/SoundBufferManager.h
     Includes/TextureManager.h
     Includes/Torch.h
