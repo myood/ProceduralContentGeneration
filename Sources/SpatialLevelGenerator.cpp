@@ -29,7 +29,7 @@ bool operator==(const Grid& lhs, const Grid& rhs)
     return os;
 }
 
-std::vector<std::vector<TILE>> createGrid(int width, int height, std::vector<SpacePartition::area_t> areas)
+std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vector<SpacePartition::area_t>& areas)
 { 
     auto grid = std::vector<std::vector<TILE>>(height, std::vector<TILE>(width, TILE::FLOOR));
     for (const auto& a : areas)
@@ -48,3 +48,8 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, std::vector<Spa
     }
     return grid;
 };
+
+std::vector<std::pair<uint, uint>> createConnections(const std::vector<SpacePartition::area_t>& areas, std::pair<uint, uint> min_max_connections_per_area)
+{
+    return {};
+}

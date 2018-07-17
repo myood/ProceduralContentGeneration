@@ -99,5 +99,13 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
 
 TEST(TestSpatialLevelGenerator, createConnections)
 {
-    
+    const auto areas = std::vector<SpacePartition::area_t>{
+        SpacePartition::area_t{ 1, 1, 3, 4 },
+        SpacePartition::area_t{ 1, 4, 3, 8 }
+    };
+
+    const auto expectedConnections = std::vector<std::pair<uint, uint>>{ std::make_pair(0, 1) };
+
+    const auto constraints = std::make_pair(1, 1);
+    ASSERT_EQ(expectedConnections, createConnections(areas, constraints));
 }
