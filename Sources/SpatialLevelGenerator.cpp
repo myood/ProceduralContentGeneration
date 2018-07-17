@@ -34,7 +34,6 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, std::vector<Spa
     auto grid = std::vector<std::vector<TILE>>(height, std::vector<TILE>(width, TILE::FLOOR));
     for (const auto& a : areas)
     {
-        //top 5, bottom 10, left 3, right 7
         for (int i = a.top; i <= a.bottom; ++i)
         {
             grid[i][a.left] = TILE::WALL_SINGLE;
