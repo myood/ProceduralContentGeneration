@@ -118,51 +118,28 @@ INSTANTIATE_TEST_CASE_P(SeparatedRooms, IsNeighbourFixture, ::testing::Values(
     SpacePartition::area_t{ 9, 9, 11, 11 } //H
 ));
 
-TEST(TestSpatialLevelGenerator, returnFalseForStickyRooms)
-{
+
     /*
-      0 1 2 3 4 5 6 7 8 9
-    0  
-    1   W W W W W W
-    2   W A W W B W
-    3   W W W W W W
-    4   W W W
-    5   W C W
-    6   W W W
-    7
-    8
-    9
+      0 1 2 3 4 5 6 7 8 9 A
+    0
+    1   
+    2     W W W W W W W W W
+    3     W A W W B W W C W
+    4     W W W W W W W W W
+    5     W W W W W W W W W
+    6     W D W W X W W E W
+    7     W W W W W W W W W
+    8     W W W W W W W W W
+    9     W F W W G W W H W
+    A     W W W W W W W W W
     */
-    const auto A = SpacePartition::area_t{ 1, 1, 3, 3 };
-    const auto B = SpacePartition::area_t{ 1, 4, 3, 6 };
-    const auto C = SpacePartition::area_t{ 4, 1, 6, 3 };
-
-    ASSERT_FALSE(isNeighbour(A, B));
-    ASSERT_FALSE(isNeighbour(A, C));
-    ASSERT_FALSE(isNeighbour(B, C));
-}
-
-TEST(TestSpatialLevelGenerator, returnTrueForRoomsSharingWall)
-{
-    /*
-      0 1 2 3 4 5 6 7 8 9
-    0  
-    1   W W W W W
-    2   W A W B W
-    3   W W W W W
-    4   W C W
-    5   W W W
-    6
-    7
-    8
-    9
-    */
-    const auto A = SpacePartition::area_t{ 1, 1, 3, 3 };
-    const auto B = SpacePartition::area_t{ 1, 3, 3, 5 };
-    const auto C = SpacePartition::area_t{ 3, 1, 5, 3 };
-
-    ASSERT_TRUE(isNeighbour(A, B));
-    ASSERT_TRUE(isNeighbour(A, C));
-    ASSERT_TRUE(isNeighbour(B, C));
-}
-
+INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourFixture, ::testing::Values(
+    SpacePartition::area_t{ 2, 2, 4, 4 },  //A
+    SpacePartition::area_t{ 2, 5, 4, 7 },  //B
+    SpacePartition::area_t{ 2, 8, 4, 11 }, //C
+    SpacePartition::area_t{ 5, 2, 8, 4 },  //D
+    SpacePartition::area_t{ 5, 8, 8, 11 }, //E
+    SpacePartition::area_t{ 8, 2, 11, 4 }, //F
+    SpacePartition::area_t{ 8, 5, 11, 8 }, //G
+    SpacePartition::area_t{ 8, 8, 11, 11 } //H
+));
