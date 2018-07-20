@@ -162,8 +162,7 @@ TEST_P(IsNeighbourTrue, shouldReturn)
     6   W F W G W H W
     7   W W W W W W W
     */
-
-INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourTrue, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(EqualSizeNeighbours, IsNeighbourTrue, ::testing::Values(
     SpacePartition::area_t{ 1, 1, 3, 3 },  //A
     SpacePartition::area_t{ 1, 3, 3, 5 },  //B
     SpacePartition::area_t{ 1, 5, 3, 7 }, //C
@@ -172,4 +171,32 @@ INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourTrue, ::testing::Values(
     SpacePartition::area_t{ 5, 1, 7, 3 }, //F
     SpacePartition::area_t{ 5, 3, 7, 5 }, //G
     SpacePartition::area_t{ 5, 5, 7, 7 } //H
+));
+
+    /*
+      0 1 2 3 4 5 6 7
+    0
+    1   W W W W W W W
+    2   W   W   B   W
+    3   W   W W W W W
+    4   W A W X W    
+    5   W   W W W W W
+    6   W   W   C   W
+    7   W W W W W W W
+    
+      0 1 2 3 4 5 6 7
+    0
+    1           W W W
+    2           W   W
+    3       W W W   W
+    4       W X W D W 
+    5       W W W   W
+    6           W   W
+    7           W W W
+    */
+INSTANTIATE_TEST_CASE_P(DifferentSizeNeighbours, IsNeighbourTrue, ::testing::Values(
+    SpacePartition::area_t{ 1, 1, 3, 7 },  //A
+    SpacePartition::area_t{ 1, 3, 3, 7 },  //B
+    SpacePartition::area_t{ 5, 3, 7, 7 },  //C
+    SpacePartition::area_t{ 1, 5, 7, 7}    //D
 ));
