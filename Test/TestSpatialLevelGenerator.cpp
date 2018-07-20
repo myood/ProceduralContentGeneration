@@ -84,9 +84,9 @@ auto isNeighbour = [](const SpacePartition::area_t& a, const::SpacePartition::ar
         (a.right == b.left);
 };
 
-struct IsNeighbourFixture : testing::TestWithParam<SpacePartition::area_t> {};
+struct IsNeighbourFalse : testing::TestWithParam<SpacePartition::area_t> {};
 
-TEST_P(IsNeighbourFixture, shouldReturn)
+TEST_P(IsNeighbourFalse, shouldReturn)
 {
     const auto X = SpacePartition::area_t{ 5, 5, 7, 7};
     ASSERT_FALSE(isNeighbour(X, GetParam()));
@@ -107,7 +107,7 @@ TEST_P(IsNeighbourFixture, shouldReturn)
     A   W F W   W G W   W H W
     B   W W W   W W W   W W W
     */
-INSTANTIATE_TEST_CASE_P(SeparatedRooms, IsNeighbourFixture, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(SeparatedRooms, IsNeighbourFalse, ::testing::Values(
     SpacePartition::area_t{ 1, 1, 3, 3 },  //A
     SpacePartition::area_t{ 1, 5, 3, 7 },  //B
     SpacePartition::area_t{ 1, 9, 3, 11 }, //C
@@ -117,7 +117,6 @@ INSTANTIATE_TEST_CASE_P(SeparatedRooms, IsNeighbourFixture, ::testing::Values(
     SpacePartition::area_t{ 9, 5, 11, 7 }, //G
     SpacePartition::area_t{ 9, 9, 11, 11 } //H
 ));
-
 
     /*
       0 1 2 3 4 5 6 7 8 9 A
@@ -133,7 +132,7 @@ INSTANTIATE_TEST_CASE_P(SeparatedRooms, IsNeighbourFixture, ::testing::Values(
     9     W F W W G W W H W
     A     W W W W W W W W W
     */
-INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourFixture, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourFalse, ::testing::Values(
     SpacePartition::area_t{ 2, 2, 4, 4 },  //A
     SpacePartition::area_t{ 2, 5, 4, 7 },  //B
     SpacePartition::area_t{ 2, 8, 4, 11 }, //C
@@ -142,4 +141,35 @@ INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourFixture, ::testing::Values(
     SpacePartition::area_t{ 8, 2, 11, 4 }, //F
     SpacePartition::area_t{ 8, 5, 11, 8 }, //G
     SpacePartition::area_t{ 8, 8, 11, 11 } //H
+));
+
+struct IsNeighbourTrue : testing::TestWithParam<SpacePartition::area_t> {};
+
+TEST_P(IsNeighbourTrue, shouldReturn)
+{
+    const auto X = SpacePartition::area_t{ 3, 3, 5, 5};
+    ASSERT_TRUE(isNeighbour(X, GetParam()));
+}
+
+    /*
+      0 1 2 3 4 5 6 7
+    0
+    1   W W W W W W W
+    2   W A W B W C W
+    3   W W W W W W W
+    4   W D W X W E W
+    5   W W W W W W W
+    6   W F W G W H W
+    7   W W W W W W W
+    */
+
+INSTANTIATE_TEST_CASE_P(StickyRooms, IsNeighbourTrue, ::testing::Values(
+    SpacePartition::area_t{ 1, 1, 3, 3 },  //A
+    SpacePartition::area_t{ 1, 3, 3, 5 },  //B
+    SpacePartition::area_t{ 1, 5, 3, 7 }, //C
+    SpacePartition::area_t{ 3, 1, 5, 3 },  //D
+    SpacePartition::area_t{ 3, 5, 5, 7 }, //E
+    SpacePartition::area_t{ 5, 1, 7, 3 }, //F
+    SpacePartition::area_t{ 5, 3, 7, 5 }, //G
+    SpacePartition::area_t{ 5, 5, 7, 7 } //H
 ));
