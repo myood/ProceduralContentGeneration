@@ -58,3 +58,17 @@ std::vector<std::pair<uint, uint>> createConnections(const std::vector<SpacePart
     }
     return retval;
 }
+
+bool isNeighbour(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
+{
+    return 
+        // B over A
+        (a.top == b.bottom and a.left <= b.right and a.right >= b.left) or 
+        // B under A
+        (a.bottom == b.top and a.left <= b.right and a.right >= b.left) or
+        // B left of A
+        (a.left == b.right and a.top <= b.bottom and a.bottom >= b.top) or 
+        // B right of A
+        (a.right == b.left and a.top <= b.bottom and a.bottom >= b.top);
+};
+
