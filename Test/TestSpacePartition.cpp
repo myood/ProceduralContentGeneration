@@ -42,7 +42,7 @@ struct TestSpacePartition : public testing::Test
 
     testing::NiceMock<RandomNumberMock> randomNumberMock;
     testing::NiceMock<RandomBoolMock> randomBoolMock;
-    SpacePartition sut;
+    SpacePartitioning sut;
 };
 
 TEST_F(TestSpacePartition, doesNotAcceptMinDimensionGreaterThenHalfOfThatDimension)

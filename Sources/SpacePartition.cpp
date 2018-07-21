@@ -22,22 +22,22 @@ uint SpacePartition::area_t::height() const
     return bottom - top + 1;
 }
 
-SpacePartition::SpacePartition(SpacePartition::RandomNumberGenerator randomNumber, SpacePartition::RandomBoolGenerator randomBool)
+SpacePartitioning::SpacePartitioning(SpacePartitioning::RandomNumberGenerator randomNumber, SpacePartitioning::RandomBoolGenerator randomBool)
     : randomNumber(randomNumber)
     , randomBool(randomBool)
 {
 }
 
-bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
+bool SpacePartitioning::divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
 {   
     current_rooms_size = 1;
     max_rooms = desired_max_rooms;
     min_width = min_room_width;
     min_height = min_room_height;
-    graph = SpacePartitioningGraph();
-    roomsMap = boost::get(area_tag(), graph);
+    graph = SpacePartition::Graph();
+    roomsMap = boost::get(SpacePartition::area_tag(), graph);
     auto root = add_vertex(graph);
-    const auto wholeSpace = area_t{0, 0, space_height - 1, space_width - 1};
+    const auto wholeSpace = SpacePartition::area_t{0, 0, space_height - 1, space_width - 1};
     boost::put(roomsMap, root, wholeSpace);
 
     if (not isDivisible(wholeSpace) or max_rooms <= 1)
@@ -68,7 +68,7 @@ bool SpacePartition::divide(uint desired_max_rooms, int min_room_width, int min_
     return true;
 }
 
-std::vector<SpacePartition::area_t> SpacePartition::rooms()
+SpacePartition::Areas SpacePartitioning::rooms()
 {
     auto ls = leaves();
     std::vector<SpacePartition::area_t> rv(ls.size());
@@ -76,21 +76,21 @@ std::vector<SpacePartition::area_t> SpacePartition::rooms()
     return rv;
 }
 
-boost::optional<SpacePartition::Orientation> SpacePartition::isDivisible(const area_t area) const
+boost::optional<SpacePartitioning::Orientation> SpacePartitioning::isDivisible(const SpacePartition::area_t area) const
 {
     auto vertically = min_width <= floor(area.width() / 2);
     auto horizontally = min_height <= floor(area.height() / 2.0);
     if (vertically and horizontally)
     {
-        return {SpacePartition::Orientation::Both};
+        return {SpacePartitioning::Orientation::Both};
     }
     else if (vertically and not horizontally)
     {
-        return {SpacePartition::Orientation::Vertical};
+        return {SpacePartitioning::Orientation::Vertical};
     }
     else if (not vertically and horizontally)
     {
-        return {SpacePartition::Orientation::Horizontal};
+        return {SpacePartitioning::Orientation::Horizontal};
     }
     else
     {
@@ -98,13 +98,13 @@ boost::optional<SpacePartition::Orientation> SpacePartition::isDivisible(const a
     }
 }
 
-std::vector<SpacePartition::Node> SpacePartition::nodes()
+SpacePartition::Nodes SpacePartitioning::nodes()
 {
     auto v_it = boost::vertices(graph);
-    return std::vector<Node>(v_it.first, v_it.second);
+    return SpacePartition::Nodes(v_it.first, v_it.second);
 }
 
-std::vector<SpacePartition::Node> SpacePartition::leaves()
+SpacePartition::Nodes SpacePartitioning::leaves()
 {
     auto ns = nodes();
     boost::remove_erase_if(ns, [this](const auto& node){
@@ -114,22 +114,22 @@ std::vector<SpacePartition::Node> SpacePartition::leaves()
     return ns;
 }
 
-SpacePartition::area_t SpacePartition::area(const Node &node)
+SpacePartition::area_t SpacePartitioning::area(const SpacePartition::Node &node)
 {
     return boost::get(roomsMap, node);
 }
 
-bool SpacePartition::continueDivision()
+bool SpacePartitioning::continueDivision()
 {
     return (num_of_rooms() < max_rooms);
 }
 
-int SpacePartition::num_of_rooms() const
+int SpacePartitioning::num_of_rooms() const
 {
     return current_rooms_size;
 }
 
-void SpacePartition::divide(const Node &node)
+void SpacePartitioning::divide(const SpacePartition::Node &node)
 {
     const auto area = boost::get(roomsMap, node);
 
@@ -149,35 +149,25 @@ void SpacePartition::divide(const Node &node)
         const auto random_min_width = min_width;
         const auto random_max_width = area.width() - min_width;
         const auto split_width = randomNumber(random_min_width, random_max_width);
-        add_child(node, area_t{area.top, area.left, area.bottom, area.left + split_width});
-        add_child(node, area_t{area.top, area.left + split_width, area.bottom, area.right});
+        add_child(node, SpacePartition::area_t{area.top, area.left, area.bottom, area.left + split_width});
+        add_child(node, SpacePartition::area_t{area.top, area.left + split_width, area.bottom, area.right});
     }
     else
     {
         const auto random_min_height = min_height;
         const auto random_max_height = area.height() - min_height;
         const auto split_height = randomNumber(random_min_height, random_max_height);
-        add_child(node, area_t{area.top, area.left, area.top + split_height, area.right});
-        add_child(node, area_t{area.top + split_height, area.left, area.bottom, area.right});
+        add_child(node, SpacePartition::area_t{area.top, area.left, area.top + split_height, area.right});
+        add_child(node, SpacePartition::area_t{area.top + split_height, area.left, area.bottom, area.right});
     }
 
     current_rooms_size += 1;
 }
 
-SpacePartition::Node SpacePartition::add_child(const Node &parent, const area_t &area)
+SpacePartition::Node SpacePartitioning::add_child(const SpacePartition::Node &parent, const SpacePartition::area_t &area)
 {
     auto child = add_vertex(graph);
     boost::put(roomsMap, child, area);
     boost::add_edge(parent, child, graph);
     return child;
-}
-
-bool operator==(const SpacePartition::area_t &lhs, const SpacePartition::area_t &rhs)
-{
-    return lhs.top == rhs.top and lhs.bottom == rhs.bottom and lhs.left == rhs.left and lhs.right == rhs.right;
-}
-
-::std::ostream &operator<<(::std::ostream &os, const SpacePartition::area_t &area)
-{
-    return os << "[top: " << area.top << ", left: " << area.left << ", bottom: " << area.bottom << ", right: " << area.right << "]";
 }

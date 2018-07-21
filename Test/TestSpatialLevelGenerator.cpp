@@ -8,7 +8,7 @@
 
 TEST(TestSpatialLevelGenerator, rooms4squareSize10x10)
 {
-    const auto areas = std::vector<SpacePartition::area_t>{
+    const auto areas = SpacePartition::Areas{
         SpacePartition::area_t{ 0, 0, 4, 4 },
         SpacePartition::area_t{ 0, 4, 4, 8 },
         SpacePartition::area_t{ 4, 0, 8, 4 },
@@ -35,7 +35,7 @@ TEST(TestSpatialLevelGenerator, rooms4squareSize10x10)
 
 TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_OverlappingWalls)
 {
-    const auto areas = std::vector<SpacePartition::area_t>{
+    const auto areas = SpacePartition::Areas{
         SpacePartition::area_t{ 0, 0, 4, 4 },
         SpacePartition::area_t{ 0, 4, 4, 9 }
     };
@@ -56,7 +56,7 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_OverlappingWalls)
 
 TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
 {
-    const auto areas = std::vector<SpacePartition::area_t>{
+    const auto areas = SpacePartition::Areas{
         SpacePartition::area_t{ 1, 1, 3, 4 },
         SpacePartition::area_t{ 1, 4, 3, 8 }
     };
