@@ -1,0 +1,4 @@
+ language: cpp
+ compiler: clang
+ install: libsfml-dev libboost-all-dev libgtest-dev google-mock
+ script: mkdir -p build && cd build && rm -rf * && cmake .. && make
