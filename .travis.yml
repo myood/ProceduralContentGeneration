@@ -21,7 +21,7 @@
  script:
  - mkdir -p build
  - cd build
- - cmake .. 
+ - cmake -DCMAKE_CXX_COMPILER=/usr/bin/clang .. 
  - make
  notifications:
   email: false
