@@ -267,3 +267,32 @@ INSTANTIATE_TEST_CASE_P(DifferentSizeNeighbours, IsNeighbourForBigTrue, ::testin
     SpacePartition::area_t{ 9, 5, 12, 7 },  //I
     SpacePartition::area_t{ 9, 5, 12, 10 }  //J
 ));
+
+TEST(CreateConnections, twoRooms)
+{
+    /*
+      0 ... 5 ... 10
+    0 WWWWWWWWWWWWWW
+    . W  A  W  B   W
+    5 WWWWWWWWWWWWWW
+    . W  C  W  D   W
+    10WWWWWWWWWWWWWW
+    */
+    const SpacePartition::Areas input{
+        SpacePartition::area_t{ 0, 0, 5, 5 }, //A
+        SpacePartition::area_t{ 0, 5, 5, 10}, //B
+        SpacePartition::area_t{ 5, 0, 10, 5 }, //D
+        SpacePartition::area_t{ 5, 5, 10, 10} //E
+    };
+
+    ASSERT_FALSE(isNeighbour(input[0], input[3]));
+    
+    const std::vector<Connection> expectedConnections = {
+        Connection{0u, 1u},
+        Connection{0u, 2u},
+        Connection{1u, 3u},
+        Connection{2u, 3u}
+    };
+
+    ASSERT_EQ(expectedConnections, createConnections(input, std::make_pair(1u, 1u)));
+}

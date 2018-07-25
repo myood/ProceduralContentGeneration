@@ -4,6 +4,7 @@
 #include "SpatialLevelGenerator.h"
 #include "Util.h"
 #include <boost/algorithm/string/join.hpp>
+#include <boost/range/algorithm/unique.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 
 bool operator==(const Grid& lhs, const Grid& rhs)
@@ -49,14 +50,26 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vect
     return grid;
 };
 
-std::vector<std::pair<uint, uint>> createConnections(const std::vector<SpacePartition::area_t>& areas, std::pair<uint, uint> min_max_connections_per_area)
+std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas, std::pair<uint, uint> min_max_connections_per_area)
 {
-    std::vector<std::pair<uint, uint>> retval;
-    for (int i = 0; i < areas.size() - 1; ++i)
+    std::vector<Connection> rv;
+    for (uint i = 0; i < areas.size(); ++i)
     {
-        retval.push_back(std::make_pair(i, i + 1));
+        for (uint j = 0; j < areas.size(); ++j)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+
+            if (isNeighbour(areas[i], areas[j]))
+            {
+                rv.push_back(Connection{i, j});
+            }
+        }
     }
-    return retval;
+    rv.erase(boost::end(boost::unique(rv)), rv.end());
+    return rv;
 }
 
 bool isNeighbour(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
