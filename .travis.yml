@@ -12,13 +12,10 @@
  - sudo cmake CMakeLists.txt
  - sudo make
  - sudo cp *.a /usr/lib
- - sudo cd -
  - sudo cd /usr/src/gmock
  - sudo cmake CMakeLists.txt
  - sudo make
  - sudo cp *.a /usr/lib
- - sudo cd -
- 
  - cd "${TRAVIS_BUILD_DIR}"
  before_script:
   - wget http://sfml-dev.org/download/sfml/2.1/SFML-2.1-linux-gcc-64bits.tar.bz2 -O /tmp/sfml.tar.bz2
