@@ -12,6 +12,7 @@
 #include <SFML/Audio.hpp>
 #include <sstream>
 #include <fstream>
+#include <cstdio>
 #include <memory>
 
 #include "Util.h"
