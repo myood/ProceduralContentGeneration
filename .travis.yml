@@ -7,14 +7,18 @@
     - llvm-toolchain-precise-3.7
  before_install: 
  - sudo apt-get update -qq
- - sudo apt-get install -qq libsfml-dev libboost-all-dev libgtest-dev
- - sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
- - sudo tar xf release-1.7.0.tar.gz
- - cd googletest-release-1.7.0
- - sudo cmake -DBUILD_SHARED_LIBS=ON .
+ - sudo apt-get install -qq libsfml-dev libboost-all-dev libgtest-dev google-mock
+ - sudo cd /usr/src/gtest
+ - sudo cmake CMakeLists.txt
  - sudo make
- - sudo cp -a include/gtest /usr/include
- - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+ - sudo cp *.a /usr/lib
+ - sudo cd -
+ - sudo cd /usr/src/gmock
+ - sudo cmake CMakeLists.txt
+ - sudo make
+ - sudo cp *.a /usr/lib
+ - sudo cd -
+ 
  - cd "${TRAVIS_BUILD_DIR}"
  before_script:
   - wget http://sfml-dev.org/download/sfml/2.1/SFML-2.1-linux-gcc-64bits.tar.bz2 -O /tmp/sfml.tar.bz2
