@@ -51,7 +51,53 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vect
     return grid;
 };
 
-std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas, std::pair<uint, uint> min_max_connections_per_area)
+Connection::Connection(std::initializer_list<uint> ab)
+{
+    if (ab.size() == 2)
+    {
+        auto first = *std::begin(ab);
+        auto last = *std::rbegin(ab);
+        a = first < last ? first : last;
+        b = first < last ? last : first;
+    }
+}
+
+bool Connection::operator == (const Connection& other) const
+{
+    return a == other.a and b == other.b;
+}
+
+bool Connection::operator != (const Connection& other) const
+{
+    return not operator==(other);
+}
+
+bool Connection::operator < (const Connection& other) const
+{
+    if (a < other.a)
+    {
+        return true;
+    }
+    else if (other.a < a)
+    {
+        return false;
+    }
+    else if (b < other.b)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+::std::ostream &operator<<(::std::ostream &os, const Connection& c)
+{
+    return os << "[a: " << c.a << ", b: " << c.b << "]";
+}
+
+std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas)
 {
     std::vector<Connection> rv;
     for (uint i = 0; i < areas.size(); ++i)

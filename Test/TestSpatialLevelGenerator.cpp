@@ -287,7 +287,8 @@ TEST(CreateConnections, fourRooms)
         SpacePartition::area_t{ 5, 5, 10, 10} //D
     };
 
-    ASSERT_THAT(createConnections(input, std::make_pair(1u, 1u)), 
+    ASSERT_THAT(
+        createConnections(input),
         testing::UnorderedElementsAre(
             Connection{0u, 1u},
             Connection{0u, 2u},
@@ -314,7 +315,8 @@ TEST(CreateConnections, sixRooms)
         SpacePartition::area_t{ 5, 10, 10, 15} //F
     };
 
-    ASSERT_THAT(createConnections(input, std::make_pair(1u, 1u)), 
+    ASSERT_THAT(
+        createConnections(input),
         testing::UnorderedElementsAre(
             Connection{0u, 1u},
             Connection{0u, 2u},

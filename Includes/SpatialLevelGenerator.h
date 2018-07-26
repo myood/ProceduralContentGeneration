@@ -21,53 +21,14 @@ struct Connection
     uint a;
     uint b;
 
-    Connection(std::initializer_list<uint> ab)
-    {
-        if (ab.size() == 2)
-        {
-            auto first = *std::begin(ab);
-            auto last = *std::rbegin(ab);
-            a = first < last ? first : last;
-            b = first < last ? last : first;
-        }
-    }
-
-    bool operator == (const Connection& other) const
-    {
-        return a == other.a and b == other.b;
-    }
-
-    bool operator != (const Connection& other) const
-    {
-        return not operator==(other);
-    }
-
-    bool operator < (const Connection& other) const
-    {
-        if (a < other.a)
-        {
-            return true;
-        }
-        else if (other.a < a)
-        {
-            return false;
-        }
-        else if (b < other.b)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    Connection(std::initializer_list<uint> ab);
+    bool operator == (const Connection& other) const;
+    bool operator != (const Connection& other) const;
+    bool operator < (const Connection& other) const;
 };
 
-inline ::std::ostream &operator<<(::std::ostream &os, const Connection& c)
-{
-    return os << "[a: " << c.a << ", b: " << c.b << "]";
-}
+::std::ostream &operator<<(::std::ostream &os, const Connection& c);
 
-std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas, std::pair<uint, uint> min_max_connections_per_area);
+std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas);
 
 bool isNeighbour(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);
