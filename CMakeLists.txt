@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(PCG)
+include(gtest.cmake)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
@@ -11,6 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MODULE_PATH "/usr/share/SFML/cmake/Modules;${CMAKE_MODULE_PATH}")
 find_package(SFML 2 REQUIRED network audio graphics window system)
+find_package(Boost REQUIRED graph)
 
 set(EXECUTABLE_NAME PCGDemo)
 
@@ -73,18 +75,13 @@ target_include_directories(${EXECUTABLE_NAME} PUBLIC
 target_link_libraries(${EXECUTABLE_NAME} ${EXECUTABLE_LIBRARY_NAME})
 
 enable_testing()
-find_package(GTest REQUIRED)
 set(TEST_EXECUTABLE_NAME Test${EXECUTABLE_NAME})
 add_executable(${TEST_EXECUTABLE_NAME}
     Test/main.cpp
     Test/TestSpacePartition.cpp
     Test/TestSpatialLevelGenerator.cpp)
-find_package(Boost REQUIRED
-    COMPONENTS graph)
 target_include_directories(${TEST_EXECUTABLE_NAME} PUBLIC
 	${Boost_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/Includes
-	$<BUILD_INTERFACE:${GTEST_INCLUDE_DIRS}
-	$<BUILD_INTERFACE:${GMOCK_INCLUDE_DIRS})
-target_link_libraries(${TEST_EXECUTABLE_NAME} gtest gtest_main gmock gmock_main pthread ${EXECUTABLE_LIBRARY_NAME})
+    ${CMAKE_CURRENT_SOURCE_DIR}/Includes)
+target_link_libraries(${TEST_EXECUTABLE_NAME} gtest pthread ${EXECUTABLE_LIBRARY_NAME})
 add_test(first_and_only_test ${TEST_EXECUTABLE_NAME})

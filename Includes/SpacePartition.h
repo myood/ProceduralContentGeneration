@@ -3,8 +3,6 @@
 #include <vector>
 #include <cmath>
 #include <functional>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/algorithm/transform.hpp>
 #include <boost/optional.hpp>
