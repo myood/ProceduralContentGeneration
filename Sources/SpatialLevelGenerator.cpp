@@ -5,6 +5,7 @@
 #include "Util.h"
 #include <boost/algorithm/string/join.hpp>
 #include <boost/range/algorithm/unique.hpp>
+#include <boost/range/algorithm/sort.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 
 bool operator==(const Grid& lhs, const Grid& rhs)
@@ -68,6 +69,7 @@ std::vector<Connection> createConnections(const std::vector<SpacePartition::area
             }
         }
     }
+    boost::sort(rv);
     rv.erase(boost::end(boost::unique(rv)), rv.end());
     return rv;
 }
