@@ -29,5 +29,6 @@ script:
  - cd build
  - cmake .. 
  - make
+ - ../bin/TestPCGDemo
 notifications:
   email: false
