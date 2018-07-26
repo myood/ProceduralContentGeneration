@@ -1,20 +1,17 @@
 language: generic
-compiler: gcc
 matrix:
   include:
     # works on Precise and Trusty
-    - os: linux
+    - compiler: gcc
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      env: COMPILER=g++-7
 
 before_install:
- - eval "${MATRIX_EVAL}"
  - sudo apt-get update -qq
  - sudo apt-get install -qq libsfml-dev libboost-all-dev libgtest-dev google-mock cmake
 install:
