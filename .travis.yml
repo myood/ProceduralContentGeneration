@@ -12,23 +12,13 @@ addons:
       - gcc-6
       - g++-6
       - cmake
-before_install:
+install:
  - sudo apt-get update -qq
- - sudo apt-get install -qq libsfml-dev libboost-all-dev libgtest-dev google-mock cmake
+ - sudo apt-get install -qq libsfml-dev libboost-all-dev cmake
  - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
  - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
  - export CC=/usr/bin/gcc-6
  - export CXX=/usr/bin/g++-6
-install:
- - cd /usr/src/gtest
- - sudo cmake CMakeLists.txt
- - sudo make
- - sudo cp *.a /usr/lib
- - cd /usr/src/gmock
- - sudo cmake CMakeLists.txt
- - sudo make
- - sudo cp *.a /usr/lib
- - cd "${TRAVIS_BUILD_DIR}"
 before_script:
   - wget http://sfml-dev.org/download/sfml/2.1/SFML-2.1-linux-gcc-64bits.tar.bz2 -O /tmp/sfml.tar.bz2
   - tar -xjvf /tmp/sfml.tar.bz2
