@@ -286,8 +286,6 @@ TEST(CreateConnections, twoRooms)
         SpacePartition::area_t{ 5, 0, 10, 5 }, //D
         SpacePartition::area_t{ 5, 5, 10, 10} //E
     };
-
-    ASSERT_FALSE(isNeighbour(input[0], input[3]));
     
     const std::vector<Connection> expectedConnections = {
         Connection{0u, 1u},
