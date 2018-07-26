@@ -270,7 +270,7 @@ INSTANTIATE_TEST_CASE_P(DifferentSizeNeighbours, IsNeighbourForBigTrue, ::testin
     SpacePartition::area_t{ 9, 5, 12, 10 }  //J
 ));
 
-TEST(CreateConnections, twoRooms)
+TEST(CreateConnections, fourRooms)
 {
     /*
       0 ... 5 ... 10
@@ -283,16 +283,44 @@ TEST(CreateConnections, twoRooms)
     const SpacePartition::Areas input{
         SpacePartition::area_t{ 0, 0, 5, 5 }, //A
         SpacePartition::area_t{ 0, 5, 5, 10}, //B
-        SpacePartition::area_t{ 5, 0, 10, 5 }, //D
-        SpacePartition::area_t{ 5, 5, 10, 10} //E
-    };
-    
-    const std::vector<Connection> expectedConnections = {
-        Connection{0u, 1u},
-        Connection{0u, 2u},
-        Connection{1u, 3u},
-        Connection{2u, 3u}
+        SpacePartition::area_t{ 5, 0, 10, 5 }, //C
+        SpacePartition::area_t{ 5, 5, 10, 10} //D
     };
 
-    ASSERT_EQ(expectedConnections, createConnections(input, std::make_pair(1u, 1u)));
+    ASSERT_THAT(createConnections(input, std::make_pair(1u, 1u)), 
+        testing::UnorderedElementsAre(
+            Connection{0u, 1u},
+            Connection{0u, 2u},
+            Connection{1u, 3u},
+            Connection{2u, 3u}));
+}
+
+TEST(CreateConnections, sixRooms)
+{
+    /*
+      0 ... 5 ... 10 ... 15
+    0 WWWWWWWWWWWWWWWWWWWWW
+    . W  A  W  B   W   E  W
+    5 WWWWWWWWWWWWWWWWWWWWW
+    . W  C  W  D   W   F  W
+    10WWWWWWWWWWWWWWWWWWWWW
+    */
+    const SpacePartition::Areas input{
+        SpacePartition::area_t{ 0, 0, 5, 5 }, //A
+        SpacePartition::area_t{ 0, 5, 5, 10}, //B
+        SpacePartition::area_t{ 5, 0, 10, 5 }, //C
+        SpacePartition::area_t{ 5, 5, 10, 10}, //D
+        SpacePartition::area_t{ 0, 10, 5, 15}, //E
+        SpacePartition::area_t{ 5, 10, 10, 15} //F
+    };
+
+    ASSERT_THAT(createConnections(input, std::make_pair(1u, 1u)), 
+        testing::UnorderedElementsAre(
+            Connection{0u, 1u},
+            Connection{0u, 2u},
+            Connection{1u, 3u},
+            Connection{2u, 3u},
+            Connection{1u, 4u},
+            Connection{3u, 5u},
+            Connection{4u, 5u}));
 }
