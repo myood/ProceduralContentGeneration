@@ -32,6 +32,6 @@ jobs:
    - cmake .. 
    - make
  - stage: test
-    script: ../bin/TestPCGDemo
+    script: bin/TestPCGDemo
 notifications:
   email: false
