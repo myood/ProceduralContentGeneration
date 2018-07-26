@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(PCG)
 include(gtest.cmake)
+include(gmock.cmake)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
@@ -83,5 +84,5 @@ add_executable(${TEST_EXECUTABLE_NAME}
 target_include_directories(${TEST_EXECUTABLE_NAME} PUBLIC
 	${Boost_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/Includes)
-target_link_libraries(${TEST_EXECUTABLE_NAME} gtest pthread ${EXECUTABLE_LIBRARY_NAME})
+target_link_libraries(${TEST_EXECUTABLE_NAME} gtest gmock pthread ${EXECUTABLE_LIBRARY_NAME})
 add_test(first_and_only_test ${TEST_EXECUTABLE_NAME})
