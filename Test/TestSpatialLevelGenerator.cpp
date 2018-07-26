@@ -157,21 +157,23 @@ INSTANTIATE_TEST_CASE_P(CornerCases, IsNeighbourFalse, ::testing::Values(
 
 
     /*
-      0 1 2 3 4 5 6 7
+      0 1 2 3 4 5 6 7 8 9
     0
-    1   W W W   W W W
-    2   W A W   W C W
-    3   W W W W W W W
-    4       W X W    
-    5   W W W W W W W
-    6   W F W   W H W
-    7   W W W   W W W
+    1
+    2
+    3       W W W   W W W
+    4       W A W   W C W
+    5       W W W W W W W
+    6           W X W    
+    7       W W W W W W W
+    8       W F W   W H W
+    9       W W W   W W W
     */
 INSTANTIATE_TEST_CASE_P(DiagonalIsNotNeighbour, IsNeighbourFalse, ::testing::Values(
-    SpacePartition::area_t{ 1, 1, 3, 3 },  //A
-    SpacePartition::area_t{ 1, 5, 3, 7 },  //C
-    SpacePartition::area_t{ 5, 1, 7, 3 },  //F
-    SpacePartition::area_t{ 5, 5, 7, 7 }   //H
+    SpacePartition::area_t{ 3, 3, 5, 5 },  //A
+    SpacePartition::area_t{ 3, 7, 5, 9 },  //C
+    SpacePartition::area_t{ 7, 3, 9, 5 },  //F
+    SpacePartition::area_t{ 7, 7, 9, 9 }   //H
 ));
 
 struct IsNeighbourTrue : testing::TestWithParam<SpacePartition::area_t> {};
