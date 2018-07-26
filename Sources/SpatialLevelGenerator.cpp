@@ -76,14 +76,14 @@ std::vector<Connection> createConnections(const std::vector<SpacePartition::area
 
 bool isNeighbour(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
 {
-    return 
+    return
         // B over A
-        (a.top == b.bottom and a.left <= b.right and a.right >= b.left) or 
+        (a.top == b.bottom and a.left < b.right and a.right > b.left) or 
         // B under A
-        (a.bottom == b.top and a.left <= b.right and a.right >= b.left) or
+        (a.bottom == b.top and a.left < b.right and a.right > b.left) or
         // B left of A
-        (a.left == b.right and a.top <= b.bottom and a.bottom >= b.top) or 
+        (a.left == b.right and a.top < b.bottom and a.bottom > b.top) or 
         // B right of A
-        (a.right == b.left and a.top <= b.bottom and a.bottom >= b.top);
+        (a.right == b.left and a.top < b.bottom and a.bottom > b.top);
 };
 
