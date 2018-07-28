@@ -40,4 +40,6 @@ enum class Neighbourhood
     A_UNDER_B
 };
 
+::std::ostream &operator<<(::std::ostream &os, const Neighbourhood n);
+
 Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);

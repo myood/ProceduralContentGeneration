@@ -121,6 +121,31 @@ std::vector<Connection> createConnections(const std::vector<SpacePartition::area
     return rv;
 }
 
+::std::ostream &operator<<(::std::ostream &os, const Neighbourhood n)
+{
+    switch (n)
+    {
+        case Neighbourhood::None:
+            os << "Neighbourhood::None";
+            break;
+        case Neighbourhood::A_on_the_LEFT_of_B:
+            os << "Neighbourhood::A_on_the_LEFT_of_B";
+            break;
+        case Neighbourhood::A_on_the_RIGHT_of_B:
+            os << "Neighbourhood::A_on_the_RIGHT_of_B";
+            break;
+        case Neighbourhood::A_on_TOP_of_B:
+            os << "Neighbourhood::A_on_TOP_of_B";
+            break;
+        case Neighbourhood::A_UNDER_B:
+            os << "Neighbourhood::A_UNDER_B";
+            break;
+        default:
+            os << "Unsupported Neighbourhood enum value in the ostream operator";
+    }
+    return os;
+}
+
 Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
 {
     // A under B
