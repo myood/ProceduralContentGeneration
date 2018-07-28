@@ -16,6 +16,19 @@ bool operator==(const Grid& lhs, const Grid& rhs);
 
 std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vector<SpacePartition::area_t>& areas);
 
+enum class Neighbourhood
+{
+    None,
+    A_on_the_LEFT_of_B,
+    A_on_the_RIGHT_of_B,
+    A_on_TOP_of_B,
+    A_UNDER_B
+};
+
+::std::ostream &operator<<(::std::ostream &os, const Neighbourhood n);
+
+Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);
+
 struct Connection
 {
     uint a;
@@ -30,16 +43,3 @@ struct Connection
 ::std::ostream &operator<<(::std::ostream &os, const Connection& c);
 
 std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas);
-
-enum class Neighbourhood
-{
-    None,
-    A_on_the_LEFT_of_B,
-    A_on_the_RIGHT_of_B,
-    A_on_TOP_of_B,
-    A_UNDER_B
-};
-
-::std::ostream &operator<<(::std::ostream &os, const Neighbourhood n);
-
-Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);
