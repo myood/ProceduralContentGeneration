@@ -180,12 +180,15 @@ INSTANTIATE_TEST_CASE_P(DiagonalIsNotNeighbour, IsNeighbourFalse, ::testing::Val
     SpacePartition::area_t{ 7, 7, 9, 9 }   //H
 ));
 
-struct IsNeighbourTrue : testing::TestWithParam<SpacePartition::area_t> {};
+using AreaAndNeighbourhood = std::pair<SpacePartition::area_t, Neighbourhood>;
+struct IsNeighbourTrue : testing::TestWithParam<AreaAndNeighbourhood>{};
 
 TEST_P(IsNeighbourTrue, shouldReturn)
 {
-    const auto X = SpacePartition::area_t{ 3, 3, 5, 5};
-    ASSERT_NE(Neighbourhood::None, getNeighbourhoodType(X, GetParam()));
+    const auto A = SpacePartition::area_t{ 3, 3, 5, 5};
+    const auto B = GetParam().first;
+    const auto neighbourhood = GetParam().second;
+    ASSERT_EQ(neighbourhood, getNeighbourhoodType(A, B));
 }
 
     /*
@@ -200,10 +203,14 @@ TEST_P(IsNeighbourTrue, shouldReturn)
     7       W W W    
     */
 INSTANTIATE_TEST_CASE_P(EqualSizeNeighbours, IsNeighbourTrue, ::testing::Values(
-    SpacePartition::area_t{ 1, 3, 3, 5 },  //B
-    SpacePartition::area_t{ 3, 1, 5, 3 },  //D
-    SpacePartition::area_t{ 3, 5, 5, 7 },  //E
-    SpacePartition::area_t{ 5, 3, 7, 5 }   //G
+    //B
+    std::make_pair(SpacePartition::area_t{ 1, 3, 3, 5 }, Neighbourhood::A_UNDER_B),
+    //D
+    std::make_pair(SpacePartition::area_t{ 3, 1, 5, 3 }, Neighbourhood::A_on_the_RIGHT_of_B),
+    //E
+    std::make_pair(SpacePartition::area_t{ 3, 5, 5, 7 }, Neighbourhood::A_on_the_LEFT_of_B),
+    //G
+    std::make_pair(SpacePartition::area_t{ 5, 3, 7, 5 }, Neighbourhood::A_on_TOP_of_B)
 ));
 
     /*
@@ -228,12 +235,18 @@ INSTANTIATE_TEST_CASE_P(EqualSizeNeighbours, IsNeighbourTrue, ::testing::Values(
     7     W W W W W W
     */
 INSTANTIATE_TEST_CASE_P(DifferentSizeNeighbours, IsNeighbourTrue, ::testing::Values(
-    SpacePartition::area_t{ 1, 1, 3, 7 },  //A
-    SpacePartition::area_t{ 1, 3, 3, 7 },  //B
-    SpacePartition::area_t{ 5, 3, 7, 7 },  //C
-    SpacePartition::area_t{ 1, 5, 7, 7 },  //D
-    SpacePartition::area_t{ 1, 2, 3, 5 },  //E
-    SpacePartition::area_t{ 5, 2, 7, 5 }   //F
+    //A
+    std::make_pair(SpacePartition::area_t{ 1, 1, 3, 7 }, Neighbourhood::A_on_the_RIGHT_of_B),
+    //B
+    std::make_pair(SpacePartition::area_t{ 1, 3, 3, 7 }, Neighbourhood::A_under_B),
+    //C
+    std::make_pair(SpacePartition::area_t{ 5, 3, 7, 7 }, Neighbourhood::A_on_TOP_of_B),
+    //D
+    std::make_pair(SpacePartition::area_t{ 1, 5, 7, 7 }, Neighbourhood::A_on_the_LEFT_of_B),
+    //E
+    std::make_pair(SpacePartition::area_t{ 1, 2, 3, 5 }, Neighbourhood::A_UNDER_B),
+    //F
+    std::make_pair(SpacePartition::area_t{ 5, 2, 7, 5 }, Neighbourhood::A_on_TOP_of_B)
 ));
 
 struct IsNeighbourForBigTrue : testing::TestWithParam<SpacePartition::area_t> {};
