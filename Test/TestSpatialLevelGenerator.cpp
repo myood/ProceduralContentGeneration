@@ -315,10 +315,10 @@ TEST(CreateConnectedRoomss, fourRooms)
     ASSERT_THAT(
         createConnectedRoomss(input),
         testing::UnorderedElementsAre(
-            ConnectedRooms{0u, 1u},
-            ConnectedRooms{0u, 2u},
-            ConnectedRooms{1u, 3u},
-            ConnectedRooms{2u, 3u}));
+            ConnectedRooms{0u, 1u, Neighbourhood::A_on_the_LEFT_of_B},
+            ConnectedRooms{0u, 2u, Neighbourhood::A_on_TOP_of_B},
+            ConnectedRooms{1u, 3u, Neighbourhood::A_on_TOP_of_B},
+            ConnectedRooms{2u, 3u, Neighbourhood::A_on_the_LEFT_of_B}));
 }
 
 TEST(CreateConnectedRoomss, sixRooms)
@@ -343,13 +343,13 @@ TEST(CreateConnectedRoomss, sixRooms)
     ASSERT_THAT(
         createConnectedRoomss(input),
         testing::UnorderedElementsAre(
-            ConnectedRooms{0u, 1u},
-            ConnectedRooms{0u, 2u},
-            ConnectedRooms{1u, 3u},
-            ConnectedRooms{2u, 3u},
-            ConnectedRooms{1u, 4u},
-            ConnectedRooms{3u, 5u},
-            ConnectedRooms{4u, 5u}));
+            ConnectedRooms{0u, 1u, Neighbourhood::A_on_the_LEFT_of_B},
+            ConnectedRooms{0u, 2u, Neighbourhood::A_on_TOP_of_B},
+            ConnectedRooms{1u, 3u, Neighbourhood::A_on_TOP_of_B},
+            ConnectedRooms{2u, 3u, Neighbourhood::A_on_the_LEFT_of_B},
+            ConnectedRooms{1u, 4u, Neighbourhood::A_on_the_LEFT_of_B},
+            ConnectedRooms{3u, 5u, Neighbourhood::A_on_the_LEFT_of_B},
+            ConnectedRooms{4u, 5u, Neighbourhood::A_on_TOP_of_B}));
 }
 
 TEST(CreateConnectedRoomss, firstWithLast)
@@ -369,7 +369,7 @@ TEST(CreateConnectedRoomss, firstWithLast)
     ASSERT_THAT(
         createConnectedRoomss(input),
         testing::UnorderedElementsAre(
-            ConnectedRooms{0, 2},
-            ConnectedRooms{1, 2}
+            ConnectedRooms{0u, 2u, Neighbourhood::A_on_the_LEFT_of_B},
+            ConnectedRooms{1u, 2u, Neighbourhood::A_on_the_LEFT_of_B}
         ));
 }

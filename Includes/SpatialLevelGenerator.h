@@ -31,10 +31,12 @@ Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::Space
 
 struct ConnectedRooms
 {
-    uint a;
-    uint b;
+    using index = uint;
+    index a;
+    index b;
+    Neighbourhood neighbourhood;
 
-    ConnectedRooms(std::initializer_list<uint> ab);
+    ConnectedRooms(index a, index b, Neighbourhood);
     bool operator == (const ConnectedRooms& other) const;
     bool operator != (const ConnectedRooms& other) const;
     bool operator < (const ConnectedRooms& other) const;

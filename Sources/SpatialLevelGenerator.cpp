@@ -52,15 +52,11 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vect
     return grid;
 };
 
-ConnectedRooms::ConnectedRooms(std::initializer_list<uint> ab)
+ConnectedRooms::ConnectedRooms(index a, index b, Neighbourhood neighbourhoodType)
 {
-    if (ab.size() == 2)
-    {
-        auto first = *std::begin(ab);
-        auto last = *std::rbegin(ab);
-        a = first < last ? first : last;
-        b = first < last ? last : first;
-    }
+    this->a = a < b ? a : b;
+    this->b = a < b ? b : a;
+    this->neighbourhood = neighbourhoodType;
 }
 
 bool ConnectedRooms::operator == (const ConnectedRooms& other) const
@@ -110,10 +106,13 @@ std::vector<ConnectedRooms> createConnectedRoomss(const std::vector<SpacePartiti
                 continue;
             }
 
-            if (getNeighbourhoodType(areas[i], areas[j]) != Neighbourhood::None)
+            const auto& n = getNeighbourhoodType(areas[i], areas[j]);
+            if (n == Neighbourhood::None)
             {
-                rv.push_back(ConnectedRooms{i, j});
+                continue;
             }
+            
+            rv.push_back(ConnectedRooms{i, j, n});
         }
     }
     boost::sort(rv);
