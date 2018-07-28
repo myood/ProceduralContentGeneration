@@ -295,7 +295,7 @@ INSTANTIATE_TEST_CASE_P(DifferentSizeNeighbours, IsNeighbourForBigTrue, ::testin
     std::make_pair(SpacePartition::area_t{ 9, 5, 12, 10 }, Neighbourhood::A_on_TOP_of_B)
 ));
 
-TEST(CreateConnections, fourRooms)
+TEST(CreateConnectedRoomss, fourRooms)
 {
     /*
       0 ... 5 ... 10
@@ -313,15 +313,15 @@ TEST(CreateConnections, fourRooms)
     };
 
     ASSERT_THAT(
-        createConnections(input),
+        createConnectedRoomss(input),
         testing::UnorderedElementsAre(
-            Connection{0u, 1u},
-            Connection{0u, 2u},
-            Connection{1u, 3u},
-            Connection{2u, 3u}));
+            ConnectedRooms{0u, 1u},
+            ConnectedRooms{0u, 2u},
+            ConnectedRooms{1u, 3u},
+            ConnectedRooms{2u, 3u}));
 }
 
-TEST(CreateConnections, sixRooms)
+TEST(CreateConnectedRoomss, sixRooms)
 {
     /*
       0 ... 5 ... 10 ... 15
@@ -341,18 +341,18 @@ TEST(CreateConnections, sixRooms)
     };
 
     ASSERT_THAT(
-        createConnections(input),
+        createConnectedRoomss(input),
         testing::UnorderedElementsAre(
-            Connection{0u, 1u},
-            Connection{0u, 2u},
-            Connection{1u, 3u},
-            Connection{2u, 3u},
-            Connection{1u, 4u},
-            Connection{3u, 5u},
-            Connection{4u, 5u}));
+            ConnectedRooms{0u, 1u},
+            ConnectedRooms{0u, 2u},
+            ConnectedRooms{1u, 3u},
+            ConnectedRooms{2u, 3u},
+            ConnectedRooms{1u, 4u},
+            ConnectedRooms{3u, 5u},
+            ConnectedRooms{4u, 5u}));
 }
 
-TEST(CreateConnections, firstWithLast)
+TEST(CreateConnectedRoomss, firstWithLast)
 {
     /*
       0 ... 5 ... 10 ... 15
@@ -367,9 +367,9 @@ TEST(CreateConnections, firstWithLast)
     };
 
     ASSERT_THAT(
-        createConnections(input),
+        createConnectedRoomss(input),
         testing::UnorderedElementsAre(
-            Connection{0, 2},
-            Connection{1, 2}
+            ConnectedRooms{0, 2},
+            ConnectedRooms{1, 2}
         ));
 }

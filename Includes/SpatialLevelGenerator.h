@@ -29,17 +29,17 @@ enum class Neighbourhood
 
 Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);
 
-struct Connection
+struct ConnectedRooms
 {
     uint a;
     uint b;
 
-    Connection(std::initializer_list<uint> ab);
-    bool operator == (const Connection& other) const;
-    bool operator != (const Connection& other) const;
-    bool operator < (const Connection& other) const;
+    ConnectedRooms(std::initializer_list<uint> ab);
+    bool operator == (const ConnectedRooms& other) const;
+    bool operator != (const ConnectedRooms& other) const;
+    bool operator < (const ConnectedRooms& other) const;
 };
 
-::std::ostream &operator<<(::std::ostream &os, const Connection& c);
+::std::ostream &operator<<(::std::ostream &os, const ConnectedRooms& c);
 
-std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas);
+std::vector<ConnectedRooms> createConnectedRoomss(const std::vector<SpacePartition::area_t>& areas);

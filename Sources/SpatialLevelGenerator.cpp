@@ -52,7 +52,7 @@ std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vect
     return grid;
 };
 
-Connection::Connection(std::initializer_list<uint> ab)
+ConnectedRooms::ConnectedRooms(std::initializer_list<uint> ab)
 {
     if (ab.size() == 2)
     {
@@ -63,17 +63,17 @@ Connection::Connection(std::initializer_list<uint> ab)
     }
 }
 
-bool Connection::operator == (const Connection& other) const
+bool ConnectedRooms::operator == (const ConnectedRooms& other) const
 {
     return a == other.a and b == other.b;
 }
 
-bool Connection::operator != (const Connection& other) const
+bool ConnectedRooms::operator != (const ConnectedRooms& other) const
 {
     return not operator==(other);
 }
 
-bool Connection::operator < (const Connection& other) const
+bool ConnectedRooms::operator < (const ConnectedRooms& other) const
 {
     if (a < other.a)
     {
@@ -93,14 +93,14 @@ bool Connection::operator < (const Connection& other) const
     }
 }
 
-::std::ostream &operator<<(::std::ostream &os, const Connection& c)
+::std::ostream &operator<<(::std::ostream &os, const ConnectedRooms& c)
 {
     return os << "[a: " << c.a << ", b: " << c.b << "]";
 }
 
-std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas)
+std::vector<ConnectedRooms> createConnectedRoomss(const std::vector<SpacePartition::area_t>& areas)
 {
-    std::vector<Connection> rv;
+    std::vector<ConnectedRooms> rv;
     for (uint i = 0; i < areas.size(); ++i)
     {
         for (uint j = 0; j < areas.size(); ++j)
@@ -112,7 +112,7 @@ std::vector<Connection> createConnections(const std::vector<SpacePartition::area
 
             if (getNeighbourhoodType(areas[i], areas[j]) != Neighbourhood::None)
             {
-                rv.push_back(Connection{i, j});
+                rv.push_back(ConnectedRooms{i, j});
             }
         }
     }
