@@ -75,10 +75,6 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
     ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
 }
 
-/*
-CASE WHERE FIRST IS CONNECTED WITH LAST
-*/
-
 struct IsNeighbourFalse : testing::TestWithParam<SpacePartition::area_t> {};
 
 TEST_P(IsNeighbourFalse, shouldReturn)
@@ -354,4 +350,26 @@ TEST(CreateConnections, sixRooms)
             Connection{1u, 4u},
             Connection{3u, 5u},
             Connection{4u, 5u}));
+}
+
+TEST(CreateConnections, firstWithLast)
+{
+    /*
+      0 ... 5 ... 10 ... 15
+    0 WWWWWWWWWWWWWWWWWWWWW
+    . W 1st W last W   E  W
+    5 WWWWWWWWWWWWWWWWWWWWW
+    */
+    const SpacePartition::Areas input{
+        SpacePartition::area_t{ 0, 0, 5, 5 }, //1st
+        SpacePartition::area_t{ 0, 10, 5, 15}, //E
+        SpacePartition::area_t{ 0, 5, 5, 10}, //last
+    };
+
+    ASSERT_THAT(
+        createConnections(input),
+        testing::UnorderedElementsAre(
+            Connection{0, 2},
+            Connection{1, 2}
+        ));
 }
