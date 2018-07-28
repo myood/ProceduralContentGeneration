@@ -12,11 +12,11 @@ struct area_t
     uint width() const;
     uint height() const;
 };
+
 using Areas = std::vector<area_t>;
 using roomsProperty = boost::property<area_tag, area_t>;
 using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, roomsProperty>;
 using GraphRooms = boost::property_map<Graph, area_tag>::type;
-
 using Node = boost::graph_traits<Graph>::vertex_descriptor;
 using Nodes = std::vector<Node>;
 

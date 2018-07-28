@@ -31,4 +31,13 @@ struct Connection
 
 std::vector<Connection> createConnections(const std::vector<SpacePartition::area_t>& areas);
 
-bool isNeighbour(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);
+enum class Neighbourhood
+{
+    None,
+    A_on_the_LEFT_of_B,
+    A_on_the_RIGHT_of_B,
+    A_on_TOP_of_B,
+    A_UNDER_B
+};
+
+Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b);

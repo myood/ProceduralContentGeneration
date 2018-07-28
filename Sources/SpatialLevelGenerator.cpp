@@ -110,7 +110,7 @@ std::vector<Connection> createConnections(const std::vector<SpacePartition::area
                 continue;
             }
 
-            if (isNeighbour(areas[i], areas[j]))
+            if (getNeighbourhoodType(areas[i], areas[j]) != Neighbourhood::None)
             {
                 rv.push_back(Connection{i, j});
             }
@@ -121,16 +121,29 @@ std::vector<Connection> createConnections(const std::vector<SpacePartition::area
     return rv;
 }
 
-bool isNeighbour(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
+Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
 {
-    return
-        // B over A
-        (a.top == b.bottom and a.left < b.right and a.right > b.left) or 
-        // B under A
-        (a.bottom == b.top and a.left < b.right and a.right > b.left) or
-        // B left of A
-        (a.left == b.right and a.top < b.bottom and a.bottom > b.top) or 
-        // B right of A
-        (a.right == b.left and a.top < b.bottom and a.bottom > b.top);
+    // A under B
+    if (a.top == b.bottom and a.left < b.right and a.right > b.left)
+    {
+        return Neighbourhood::A_UNDER_B;
+    }
+        // A on top of B
+    if (a.bottom == b.top and a.left < b.right and a.right > b.left)
+    {
+        return Neighbourhood::A_on_TOP_of_B;
+    }
+        // A on the right of B
+    if (a.left == b.right and a.top < b.bottom and a.bottom > b.top)
+    {
+        return Neighbourhood::A_on_the_RIGHT_of_B;
+    }
+        // A on the left of B
+    if (a.right == b.left and a.top < b.bottom and a.bottom > b.top)
+    {
+        return Neighbourhood::A_on_the_LEFT_of_B;
+    }
+
+    return Neighbourhood::None;
 };
 

@@ -75,12 +75,16 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
     ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
 }
 
+/*
+CASE WHERE FIRST IS CONNECTED WITH LAST
+*/
+
 struct IsNeighbourFalse : testing::TestWithParam<SpacePartition::area_t> {};
 
 TEST_P(IsNeighbourFalse, shouldReturn)
 {
     const auto X = SpacePartition::area_t{ 5, 5, 7, 7};
-    ASSERT_FALSE(isNeighbour(X, GetParam()));
+    ASSERT_EQ(Neighbourhood::None, getNeighbourhoodType(X, GetParam()));
 }
 
     /*
@@ -181,7 +185,7 @@ struct IsNeighbourTrue : testing::TestWithParam<SpacePartition::area_t> {};
 TEST_P(IsNeighbourTrue, shouldReturn)
 {
     const auto X = SpacePartition::area_t{ 3, 3, 5, 5};
-    ASSERT_TRUE(isNeighbour(X, GetParam()));
+    ASSERT_NE(Neighbourhood::None, getNeighbourhoodType(X, GetParam()));
 }
 
     /*
@@ -238,7 +242,7 @@ struct IsNeighbourForBigTrue : testing::TestWithParam<SpacePartition::area_t> {}
 TEST_P(IsNeighbourForBigTrue, shouldReturn)
 {
     const auto X = SpacePartition::area_t{ 5, 5, 9, 10};
-    ASSERT_TRUE(isNeighbour(X, GetParam()));
+    ASSERT_NE(Neighbourhood::None, getNeighbourhoodType(X, GetParam()));
 }
 
 /*
