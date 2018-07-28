@@ -18,14 +18,14 @@ using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, 
 using GraphRooms = boost::property_map<Graph, area_tag>::type;
 
 using Node = boost::graph_traits<Graph>::vertex_descriptor;
-using Nodes = std::vector<SpacePartition::Node>;
+using Nodes = std::vector<Node>;
 
-inline bool operator==(const SpacePartition::area_t &lhs, const SpacePartition::area_t &rhs)
+inline bool operator==(const area_t &lhs, const area_t &rhs)
 {
     return lhs.top == rhs.top and lhs.bottom == rhs.bottom and lhs.left == rhs.left and lhs.right == rhs.right;
 }
 
-inline ::std::ostream &operator<<(::std::ostream &os, const SpacePartition::area_t &area)
+inline ::std::ostream &operator<<(::std::ostream &os, const area_t &area)
 {
     return os << "[top: " << area.top << ", left: " << area.left << ", bottom: " << area.bottom << ", right: " << area.right << "]";
 }
