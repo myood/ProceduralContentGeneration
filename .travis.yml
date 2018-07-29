@@ -17,8 +17,8 @@ addons:
 before_install:
  # set up awscli packages
   - pip install --user awscli
-  - mkdir -p ~/$TRAVIS_BUILD_NUMBER
-  - aws s3 sync s3://travis-build-stages-shared-storage-test/$TRAVIS_BUILD_NUMBER ~/$TRAVIS_BUILD_NUMBER 
+  - mkdir -p ~/shared
+  - aws s3 sync s3://travis-ProceduralContentGenerationLinux-SpacePartitioning/shared ~/shared
 install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq libsfml-dev libboost-all-dev cmake
@@ -39,13 +39,13 @@ jobs:
        - cd build
        - cmake .. 
        - make
-       - mv ../bin ~/$TRAVIS_BUILD_NUMBER
+       - mv ../bin ~/shared
     - stage: test
       script:
        - ~/$TRAVIS_BUILD_NUMBER/bin/TestPCGDemo
       after_success:
-       - aws s3 rm --recursive s3://travis-build-stages-shared-storage-test/$TRAVIS_BUILD_NUMBER # clean up after ourselves
+       - aws s3 rm --recursive s3://travis-ProceduralContentGenerationLinux-SpacePartitioning/shared # clean up after ourselves
 after_success:
-  - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://travis-build-stages-shared-storage-test/$TRAVIS_BUILD_NUMBER
+  - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://travis-ProceduralContentGenerationLinux-SpacePartitioning/shared
 notifications:
   email: false
