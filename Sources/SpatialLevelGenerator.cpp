@@ -51,7 +51,7 @@ bool ConnectedRooms::operator < (const ConnectedRooms& other) const
     return os << "[a: " << c.a << ", b: " << c.b << "]";
 }
 
-std::vector<ConnectedRooms> createConnectedRoomss(const std::vector<SpacePartition::area_t>& areas)
+std::vector<ConnectedRooms> createConnectedRooms(const std::vector<SpacePartition::area_t>& areas)
 {
     std::vector<ConnectedRooms> rv;
 

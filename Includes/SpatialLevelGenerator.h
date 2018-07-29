@@ -33,7 +33,7 @@ struct ConnectedRooms
 
 ::std::ostream &operator<<(::std::ostream &os, const ConnectedRooms& c);
 
-std::vector<ConnectedRooms> createConnectedRoomss(const std::vector<SpacePartition::area_t>& areas);
+std::vector<ConnectedRooms> createConnectedRooms(const std::vector<SpacePartition::area_t>& areas);
 
 struct Grid
 {

@@ -295,7 +295,7 @@ INSTANTIATE_TEST_CASE_P(DifferentSizeNeighbours, IsNeighbourForBigTrue, ::testin
     std::make_pair(SpacePartition::area_t{ 9, 5, 12, 10 }, Neighbourhood::A_on_TOP_of_B)
 ));
 
-TEST(CreateConnectedRoomss, fourRooms)
+TEST(ConnectedRoomsTest, fourRooms)
 {
     /*
       0 ... 5 ... 10
@@ -313,7 +313,7 @@ TEST(CreateConnectedRoomss, fourRooms)
     };
 
     ASSERT_THAT(
-        createConnectedRoomss(input),
+        createConnectedRooms(input),
         testing::UnorderedElementsAre(
             ConnectedRooms{0u, 1u, Neighbourhood::A_on_the_LEFT_of_B},
             ConnectedRooms{0u, 2u, Neighbourhood::A_on_TOP_of_B},
@@ -321,7 +321,7 @@ TEST(CreateConnectedRoomss, fourRooms)
             ConnectedRooms{2u, 3u, Neighbourhood::A_on_the_LEFT_of_B}));
 }
 
-TEST(CreateConnectedRoomss, sixRooms)
+TEST(ConnectedRoomsTest, sixRooms)
 {
     /*
       0 ... 5 ... 10 ... 15
@@ -341,7 +341,7 @@ TEST(CreateConnectedRoomss, sixRooms)
     };
 
     ASSERT_THAT(
-        createConnectedRoomss(input),
+        createConnectedRooms(input),
         testing::UnorderedElementsAre(
             ConnectedRooms{0u, 1u, Neighbourhood::A_on_the_LEFT_of_B},
             ConnectedRooms{0u, 2u, Neighbourhood::A_on_TOP_of_B},
@@ -352,7 +352,7 @@ TEST(CreateConnectedRoomss, sixRooms)
             ConnectedRooms{4u, 5u, Neighbourhood::A_on_TOP_of_B}));
 }
 
-TEST(CreateConnectedRoomss, firstWithLast)
+TEST(ConnectedRoomsTest, firstWithLast)
 {
     /*
       0 ... 5 ... 10 ... 15
@@ -367,7 +367,7 @@ TEST(CreateConnectedRoomss, firstWithLast)
     };
 
     ASSERT_THAT(
-        createConnectedRoomss(input),
+        createConnectedRooms(input),
         testing::UnorderedElementsAre(
             ConnectedRooms{0u, 2u, Neighbourhood::A_on_the_LEFT_of_B},
             ConnectedRooms{1u, 2u, Neighbourhood::A_on_the_LEFT_of_B}
