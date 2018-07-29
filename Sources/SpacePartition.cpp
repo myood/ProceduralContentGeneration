@@ -35,32 +35,29 @@ bool SpacePartitioning::divide(uint desired_max_rooms, uint min_room_width, uint
     graph = SpacePartition::Graph();
     roomsMap = boost::get(SpacePartition::area_tag(), graph);
     auto root = add_vertex(graph);
-    const auto wholeSpace = SpacePartition::area_t{0u, 0u, space_height - 1u, space_width - 1u};
+    const auto wholeSpace = SpacePartition::area_t{0, 0, space_height - 1, space_width - 1};
     boost::put(roomsMap, root, wholeSpace);
 
-    if (not isDivisible(wholeSpace) or max_rooms <= 1)
+    if (not isDivisible(wholeSpace) or desired_max_rooms <= 1)
     {
         return false;
     }
-
+    const auto isDivisibleFunctor = [this](const SpacePartition::Node& n){ return bool(isDivisible(area(n))); };
+    const auto randomBoolFunctor = [this](const SpacePartition::Node&){ return randomBool(); };
+    const auto continueDivisionFunctor = [this](const SpacePartition::Node&){ return continueDivision(); };
     while (continueDivision())
     {
         auto lv = leaves();
-        auto l = lv | boost::adaptors::filtered([this](const auto& n){ return static_cast<bool>(isDivisible(area(n))); });
+        auto l = lv | boost::adaptors::filtered(isDivisibleFunctor)
+                    | boost::adaptors::filtered(randomBoolFunctor)
+                    | boost::adaptors::filtered(continueDivisionFunctor);
         if (l.empty())
         {
             return true;
         }
         for (const auto& n : l)
         {
-            if (randomBool())
-            {
-                divide(n);
-                if (not continueDivision())
-                {
-                    return true;
-                }
-            }
+            divide(n);
         }
     };
     return true;
