@@ -129,7 +129,7 @@ RelativeProximity getRelativeProximityType(const SpacePartition::area_t& a, cons
     return RelativeProximity::None;
 };
 
-SpacePartition::area_t getDoorway(const SpacePartition::area_t& a, const SpacePartition::area_t& b, RelativeProximity relativeProximity)
+SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity)
 {
     return {};
 }

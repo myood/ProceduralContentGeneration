@@ -374,3 +374,16 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
 
     ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
 }
+
+using DoorwayTestParam = std::tuple<SpacePartition::area_t, SpacePartition::area_t, RelativeProximity, SpacePartition::area_t>;
+struct GetDoorwayTest : testing::TestWithParam<DoorwayTestParam> {};
+
+TEST_P(GetDoorwayTest, functional)
+{
+    const auto A = std::get<0>(GetParam());
+    const auto B = std::get<1>(GetParam());
+    const auto relativeProximity = std::get<2>(GetParam());
+    const auto doorway = std::get<3>(GetParam());
+
+    ASSERT_EQ(doorway, getDoorway(A, B, relativeProximity));
+}
