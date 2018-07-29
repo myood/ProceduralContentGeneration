@@ -150,8 +150,11 @@ SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePar
         case RelativeProximity::A_UNDER_B:
             return SpacePartition::area_t{a.top, getWidthMidpoint(a), a.top, getWidthMidpoint(a)};
             break;
+
+        default:
+            return {};
+            break;
     }
-    return {};
 }
 
 bool operator==(const Grid& lhs, const Grid& rhs)
