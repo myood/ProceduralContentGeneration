@@ -47,6 +47,4 @@ bool operator==(const Grid& lhs, const Grid& rhs);
 
 std::vector<std::vector<TILE>> createGrid(int width, int height, const SpacePartition::Areas& areas);
 
-SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity);
-
-
+SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity, uint width);

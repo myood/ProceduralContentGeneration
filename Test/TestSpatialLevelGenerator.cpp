@@ -375,7 +375,7 @@ TEST(TestSpatialLevelGenerator, rooms2squareSize10x5_WallsInTheMiddle)
     ASSERT_EQ(Grid{expectedGrid}, Grid{createGrid(width, height, areas)});
 }
 
-using DoorwayTestParam = std::tuple<SpacePartition::area_t, SpacePartition::area_t, RelativeProximity, SpacePartition::area_t>;
+using DoorwayTestParam = std::tuple<SpacePartition::area_t, SpacePartition::area_t, RelativeProximity, uint, SpacePartition::area_t>;
 struct GetDoorwayTest : testing::TestWithParam<DoorwayTestParam> {};
 
 TEST_P(GetDoorwayTest, functional)
@@ -383,7 +383,23 @@ TEST_P(GetDoorwayTest, functional)
     const auto A = std::get<0>(GetParam());
     const auto B = std::get<1>(GetParam());
     const auto relativeProximity = std::get<2>(GetParam());
-    const auto doorway = std::get<3>(GetParam());
+    const auto width = std::get<3>(GetParam());
+    const auto doorway = std::get<4>(GetParam());
 
-    ASSERT_EQ(doorway, getDoorway(A, B, relativeProximity));
+    ASSERT_EQ(doorway, getDoorway(A, B, relativeProximity, width));
 }
+
+constexpr uint width_one = 1;
+INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms3x3, GetDoorwayTest, ::testing::Values(
+    std::make_tuple(SpacePartition::area_t{0, 0, 3, 3}, SpacePartition::area_t{0, 3, 3, 6}, RelativeProximity::A_on_the_LEFT_of_B, width_one, SpacePartition::area_t{1, 3, 1, 3}),
+    std::make_tuple(SpacePartition::area_t{0, 0, 3, 3}, SpacePartition::area_t{0, 3, 3, 6}, RelativeProximity::A_on_the_LEFT_of_B, width_one, SpacePartition::area_t{1, 3, 1, 3})
+));
+
+//room width not enugh for doorway
+//width = 1, size = 5x3
+//width = 1, different size, small in the center of big
+//width = 1, different size, small in the corner of big
+//width = 2, equal size odd
+//width = 2, equal size even
+//width = 2, different size, small in the center of big
+//width = 2, different size, small in the corner of big

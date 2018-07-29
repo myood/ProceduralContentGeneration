@@ -15,7 +15,7 @@ public:
     using RandomBoolGenerator = std::function<bool()>;
     SpacePartitioning(RandomNumberGenerator randomNumber, RandomBoolGenerator randomBool);
 
-    bool divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height);
+    bool divide(uint desired_max_rooms, uint min_room_width, uint min_room_height, uint space_width, uint space_height);
     std::vector<SpacePartition::area_t> rooms();
 
 private:

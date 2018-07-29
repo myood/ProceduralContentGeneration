@@ -35,10 +35,10 @@ struct TestSpacePartition : public testing::Test
     {
     }
 
-    const int min_height = 2;
-    const int min_width = 2;
-    const int height = 3;
-    const int width = 3;
+    const uint min_height = 2u;
+    const uint min_width = 2u;
+    const uint height = 3u;
+    const uint width = 3u;
 
     testing::NiceMock<RandomNumberMock> randomNumberMock;
     testing::NiceMock<RandomBoolMock> randomBoolMock;
@@ -47,13 +47,13 @@ struct TestSpacePartition : public testing::Test
 
 TEST_F(TestSpacePartition, doesNotAcceptMinDimensionGreaterThenHalfOfThatDimension)
 {
-    const auto max_rooms = 3;
+    const auto max_rooms = 3u;
     ASSERT_FALSE(sut.divide(max_rooms, min_width, min_height, width, height));
 }
 
 TEST_F(TestSpacePartition, dontSplitIfMaxRoomsZero)
 {
-    const auto max_rooms = 0;
+    const auto max_rooms = 0u;
     ASSERT_FALSE(sut.divide(max_rooms, min_width, min_height, width, height));
 }
 
@@ -65,11 +65,11 @@ struct TestSpacePartition_Size20 : TestSpacePartition
         ON_CALL(randomBoolMock, generate()).WillByDefault(testing::Return(true));
     }
     
-    const uint max_rooms = 2;
-    const int min_height = 10;
-    const int min_width = 10;
-    const int height = 20;
-    const int width = 20;
+    const uint max_rooms = 2u;
+    const uint min_height = 10u;
+    const uint min_width = 10u;
+    const uint height = 20u;
+    const uint width = 20u;
 };
 
 TEST_F(TestSpacePartition_Size20, doesNotAcceptZeroRoomsOrOneRoom)
@@ -82,7 +82,7 @@ TEST_F(TestSpacePartition_Size20, doesNotAcceptZeroRoomsOrOneRoom)
 
 TEST_F(TestSpacePartition_Size20, horizontallyAndVertically)
 {
-    const uint max_rooms = 3;
+    const uint max_rooms = 3u;
     ON_CALL(randomNumberMock, generate(0, 1)).WillByDefault(testing::Return(0));
 
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
@@ -99,8 +99,8 @@ TEST_F(TestSpacePartition_Size20, vertically)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{10, 0, height - 1, width - 1},
-                            SpacePartition::area_t{0, 0, 10, width - 1}));
+                            SpacePartition::area_t{10, 0, height - 1u, width - 1u},
+                            SpacePartition::area_t{0, 0, 10, width - 1u}));
 }
 
 TEST_F(TestSpacePartition_Size20, continueSplitIfPossibleInOneDirectionEvenThoughNotPossibleInOther)
@@ -129,10 +129,10 @@ struct TestSpacePartition_Size40 : TestSpacePartition
         ON_CALL(randomBoolMock, generate()).WillByDefault(testing::Return(true));
     }
     
-    const int min_height = 10;
-    const int min_width = 10;
-    const int height = 40;
-    const int width = 40;
+    const uint min_height = 10;
+    const uint min_width = 10;
+    const uint height = 40;
+    const uint width = 40;
 };
 
 TEST_F(TestSpacePartition_Size40, horizontally)
@@ -142,8 +142,8 @@ TEST_F(TestSpacePartition_Size40, horizontally)
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
                             SpacePartition::area_t{0, 0, 10, 10},
-                            SpacePartition::area_t{10, 0, height - 1, 10},
-                            SpacePartition::area_t{0, 10, height - 1, width - 1}));
+                            SpacePartition::area_t{10, 0, height - 1u, 10},
+                            SpacePartition::area_t{0, 10, height - 1u, width - 1u}));
 }
 
 TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
@@ -152,8 +152,8 @@ TEST_F(TestSpacePartition_Size40, stopSplitWhenMaxRoomsReached)
     ASSERT_TRUE(sut.divide(max_rooms, min_width, min_height, width, height));
 
     EXPECT_THAT(sut.rooms(), ::testing::UnorderedElementsAre(
-                            SpacePartition::area_t{0, 0, height - 1, 10},
-                            SpacePartition::area_t{0, 10, height - 1, width - 1}));
+                            SpacePartition::area_t{0, 0, height - 1u, 10},
+                            SpacePartition::area_t{0, 10, height - 1u, width - 1u}));
 }
 
 struct TestSpacePartition_Size40_PseudoRandom : public TestSpacePartition_Size40

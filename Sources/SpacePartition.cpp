@@ -26,7 +26,7 @@ SpacePartitioning::SpacePartitioning(SpacePartitioning::RandomNumberGenerator ra
 {
 }
 
-bool SpacePartitioning::divide(uint desired_max_rooms, int min_room_width, int min_room_height, int space_width, int space_height)
+bool SpacePartitioning::divide(uint desired_max_rooms, uint min_room_width, uint min_room_height, uint space_width, uint space_height)
 {   
     current_rooms_size = 1;
     max_rooms = desired_max_rooms;
@@ -35,7 +35,7 @@ bool SpacePartitioning::divide(uint desired_max_rooms, int min_room_width, int m
     graph = SpacePartition::Graph();
     roomsMap = boost::get(SpacePartition::area_tag(), graph);
     auto root = add_vertex(graph);
-    const auto wholeSpace = SpacePartition::area_t{0, 0, space_height - 1, space_width - 1};
+    const auto wholeSpace = SpacePartition::area_t{0u, 0u, space_height - 1u, space_width - 1u};
     boost::put(roomsMap, root, wholeSpace);
 
     if (not isDivisible(wholeSpace) or max_rooms <= 1)

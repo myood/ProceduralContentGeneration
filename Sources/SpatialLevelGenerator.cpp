@@ -129,8 +129,14 @@ RelativeProximity getRelativeProximityType(const SpacePartition::area_t& a, cons
     return RelativeProximity::None;
 };
 
-SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity)
+SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity relativeProximity, uint width)
 {
+    switch (relativeProximity)
+    {
+        case RelativeProximity::A_on_the_LEFT_of_B:
+            return SpacePartition::area_t{a.top + uint(a.height() / 2.0f), a.right, a.top + uint(a.height() / 2), a.right};
+            break;
+    }
     return {};
 }
 
