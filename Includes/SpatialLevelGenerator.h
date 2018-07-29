@@ -45,4 +45,4 @@ bool operator==(const Grid& lhs, const Grid& rhs);
 
 ::std::ostream &operator<<(::std::ostream &os, const Grid& g);
 
-std::vector<std::vector<TILE>> createGrid(int width, int height, const SpacePartition::Areas& areas, const Neighbourhoods& neighbourhoods);
+std::vector<std::vector<TILE>> createGrid(int width, int height, const SpacePartition::Areas& areas);

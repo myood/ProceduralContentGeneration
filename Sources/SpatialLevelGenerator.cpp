@@ -129,6 +129,11 @@ RelativeProximity getRelativeProximityType(const SpacePartition::area_t& a, cons
     return RelativeProximity::None;
 };
 
+SpacePartition::area_t getDoorway(const SpacePartition::area_t& a, const SpacePartition::area_t& b, RelativeProximity relativeProximity)
+{
+    return {};
+}
+
 bool operator==(const Grid& lhs, const Grid& rhs)
 {
     return lhs.tiles == rhs.tiles;
@@ -152,7 +157,7 @@ bool operator==(const Grid& lhs, const Grid& rhs)
     return os;
 }
 
-std::vector<std::vector<TILE>> createGrid(int width, int height, const SpacePartition::Areas& areas, const Neighbourhoods& neighbourhoods);)
+std::vector<std::vector<TILE>> createGrid(int width, int height, const SpacePartition::Areas& areas)
 { 
     auto grid = std::vector<std::vector<TILE>>(height, std::vector<TILE>(width, TILE::FLOOR));
     for (const auto& a : areas)
