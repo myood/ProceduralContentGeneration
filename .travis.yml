@@ -1,9 +1,8 @@
 dist: trusty
 sudo: required
-language:
-  - cpp
-compiler:
-  - gcc
+language: cpp
+compiler: gcc
+
 addons:
   apt:
     sources:
@@ -12,6 +11,7 @@ addons:
       - gcc-7
       - g++-7
       - cmake
+
 install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq libsfml-dev libboost-all-dev cmake
@@ -24,20 +24,12 @@ install:
  - sudo cp -r SFML-2.1/* /usr/
  - sudo apt-get install -y libjpeg62-dev libsndfile1-dev libglew1.5 libglew1.5-dev libfreetype6 libjpeg-turbo8 libjpeg8 libopenal-data libopenal1  libxrandr2 libxrender1 libsoil1 
  
-jobs:
-  include:
-    - stage: build
-      script:
-       - mkdir -p build
-       - cd build
-       - cmake .. 
-       - make
-    - stage: test
-      script:
-       - mkdir -p build
-       - cd build
-       - cmake .. 
-       - make
-       - ../bin/TestPCGDemo
+script:
+  - mkdir -p build
+  - cd build
+  - cmake .. 
+  - make
+  - ../bin/TestPCGDemo
+
 notifications:
   email: false
