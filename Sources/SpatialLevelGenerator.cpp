@@ -131,11 +131,15 @@ RelativeProximity getRelativeProximityType(const SpacePartition::area_t& a, cons
 
 SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity relativeProximity, uint width)
 {
-    const auto getHeightMidpoint = [](const SpacePartition::area_t a){ return a.top + uint(a.height() / 2.0f) - 1; };
+    const auto getHeightMidpoint = [](const SpacePartition::area_t a){ return a.top + uint(a.height() / 2.0f); };
     switch (relativeProximity)
     {
         case RelativeProximity::A_on_the_LEFT_of_B:
             return SpacePartition::area_t{getHeightMidpoint(a), a.right, getHeightMidpoint(a), a.right};
+            break;
+
+        case RelativeProximity::A_on_the_RIGHT_of_B:
+            return SpacePartition::area_t{getHeightMidpoint(a), a.left, getHeightMidpoint(a), a.left};
             break;
     }
     return {};

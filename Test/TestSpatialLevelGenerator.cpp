@@ -391,8 +391,21 @@ TEST_P(GetDoorwayTest, functional)
 
 constexpr uint width_one = 1;
 INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms3x3, GetDoorwayTest, ::testing::Values(
-    std::make_tuple(SpacePartition::area_t{0, 0, 3, 3}, SpacePartition::area_t{0, 3, 3, 6}, RelativeProximity::A_on_the_LEFT_of_B, width_one, SpacePartition::area_t{1, 3, 1, 3}),
-    std::make_tuple(SpacePartition::area_t{0, 3, 3, 6}, SpacePartition::area_t{0, 0, 3, 3}, RelativeProximity::A_on_the_RIGHT_of_B, width_one, SpacePartition::area_t{1, 3, 1, 3})
+    /* A B
+      01234
+    0 00000
+    1 0 0 0
+    2 00000
+    */
+    std::make_tuple(SpacePartition::area_t{0, 0, 2, 2}, SpacePartition::area_t{0, 2, 2, 4}, RelativeProximity::A_on_the_LEFT_of_B, width_one, SpacePartition::area_t{1, 2, 1, 2}),
+
+    /* B A
+      01234
+    0 00000
+    1 0 0 0
+    2 00000
+    */
+    std::make_tuple(SpacePartition::area_t{0, 2, 2, 4}, SpacePartition::area_t{0, 0, 2, 4}, RelativeProximity::A_on_the_RIGHT_of_B, width_one, SpacePartition::area_t{1, 2, 1, 2})
 ));
 
 //room width not enugh for doorway
