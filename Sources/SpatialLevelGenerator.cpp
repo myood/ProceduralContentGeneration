@@ -9,24 +9,24 @@
 #include <boost/range/algorithm/sort.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 
-ConnectedRooms::ConnectedRooms(index a, index b, Neighbourhood neighbourhoodType)
+Neighbourhood::Neighbourhood(index a, index b, RelativeProximity relativeProximityType)
 {
     this->a = a < b ? a : b;
     this->b = a < b ? b : a;
-    this->neighbourhood = neighbourhoodType;
+    this->relativeProximity = relativeProximityType;
 }
 
-bool ConnectedRooms::operator == (const ConnectedRooms& other) const
+bool Neighbourhood::operator == (const Neighbourhood& other) const
 {
     return a == other.a and b == other.b;
 }
 
-bool ConnectedRooms::operator != (const ConnectedRooms& other) const
+bool Neighbourhood::operator != (const Neighbourhood& other) const
 {
     return not operator==(other);
 }
 
-bool ConnectedRooms::operator < (const ConnectedRooms& other) const
+bool Neighbourhood::operator < (const Neighbourhood& other) const
 {
     if (a < other.a)
     {
@@ -46,14 +46,14 @@ bool ConnectedRooms::operator < (const ConnectedRooms& other) const
     }
 }
 
-::std::ostream &operator<<(::std::ostream &os, const ConnectedRooms& c)
+::std::ostream &operator<<(::std::ostream &os, const Neighbourhood& c)
 {
     return os << "[a: " << c.a << ", b: " << c.b << "]";
 }
 
-std::vector<ConnectedRooms> createConnectedRooms(const std::vector<SpacePartition::area_t>& areas)
+Neighbourhoods getNeighbourRooms(const SpacePartition::Areas& areas)
 {
-    std::vector<ConnectedRooms> rv;
+    Neighbourhoods rv;
 
     for (uint i = 0; i < areas.size(); ++i)
     {
@@ -64,13 +64,13 @@ std::vector<ConnectedRooms> createConnectedRooms(const std::vector<SpacePartitio
                 continue;
             }
 
-            const auto& n = getNeighbourhoodType(areas[i], areas[j]);
-            if (n == Neighbourhood::None)
+            const auto& n = getRelativeProximityType(areas[i], areas[j]);
+            if (n == RelativeProximity::None)
             {
                 continue;
             }
             
-            rv.push_back(ConnectedRooms{i, j, n});
+            rv.push_back(Neighbourhood{i, j, n});
         }
     }
     boost::sort(rv);
@@ -78,55 +78,55 @@ std::vector<ConnectedRooms> createConnectedRooms(const std::vector<SpacePartitio
     return rv;
 }
 
-::std::ostream &operator<<(::std::ostream &os, const Neighbourhood n)
+::std::ostream &operator<<(::std::ostream &os, const RelativeProximity n)
 {
     switch (n)
     {
-        case Neighbourhood::None:
-            os << "Neighbourhood::None";
+        case RelativeProximity::None:
+            os << "RelativeProximity::None";
             break;
-        case Neighbourhood::A_on_the_LEFT_of_B:
-            os << "Neighbourhood::A_on_the_LEFT_of_B";
+        case RelativeProximity::A_on_the_LEFT_of_B:
+            os << "RelativeProximity::A_on_the_LEFT_of_B";
             break;
-        case Neighbourhood::A_on_the_RIGHT_of_B:
-            os << "Neighbourhood::A_on_the_RIGHT_of_B";
+        case RelativeProximity::A_on_the_RIGHT_of_B:
+            os << "RelativeProximity::A_on_the_RIGHT_of_B";
             break;
-        case Neighbourhood::A_on_TOP_of_B:
-            os << "Neighbourhood::A_on_TOP_of_B";
+        case RelativeProximity::A_on_TOP_of_B:
+            os << "RelativeProximity::A_on_TOP_of_B";
             break;
-        case Neighbourhood::A_UNDER_B:
-            os << "Neighbourhood::A_UNDER_B";
+        case RelativeProximity::A_UNDER_B:
+            os << "RelativeProximity::A_UNDER_B";
             break;
         default:
-            os << "Unsupported Neighbourhood enum value in the ostream operator";
+            os << "Unsupported RelativeProximity enum value in the ostream operator";
     }
     return os;
 }
 
-Neighbourhood getNeighbourhoodType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
+RelativeProximity getRelativeProximityType(const SpacePartition::area_t& a, const::SpacePartition::area_t& b)
 {
     // A under B
     if (a.top == b.bottom and a.left < b.right and a.right > b.left)
     {
-        return Neighbourhood::A_UNDER_B;
+        return RelativeProximity::A_UNDER_B;
     }
         // A on top of B
     if (a.bottom == b.top and a.left < b.right and a.right > b.left)
     {
-        return Neighbourhood::A_on_TOP_of_B;
+        return RelativeProximity::A_on_TOP_of_B;
     }
         // A on the right of B
     if (a.left == b.right and a.top < b.bottom and a.bottom > b.top)
     {
-        return Neighbourhood::A_on_the_RIGHT_of_B;
+        return RelativeProximity::A_on_the_RIGHT_of_B;
     }
         // A on the left of B
     if (a.right == b.left and a.top < b.bottom and a.bottom > b.top)
     {
-        return Neighbourhood::A_on_the_LEFT_of_B;
+        return RelativeProximity::A_on_the_LEFT_of_B;
     }
 
-    return Neighbourhood::None;
+    return RelativeProximity::None;
 };
 
 bool operator==(const Grid& lhs, const Grid& rhs)
@@ -152,7 +152,7 @@ bool operator==(const Grid& lhs, const Grid& rhs)
     return os;
 }
 
-std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vector<SpacePartition::area_t>& areas)
+std::vector<std::vector<TILE>> createGrid(int width, int height, const SpacePartition::Areas& areas, const Neighbourhoods& neighbourhoods);)
 { 
     auto grid = std::vector<std::vector<TILE>>(height, std::vector<TILE>(width, TILE::FLOOR));
     for (const auto& a : areas)
