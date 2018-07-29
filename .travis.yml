@@ -1,11 +1,9 @@
 dist: trusty
 sudo: required
-language: cpp
-compiler: gcc
-env:
-  global:
-    # include $HOME/.local/bin for `aws`
-    - PATH=$HOME/.local/bin:$PATH
+language:
+  - cpp
+compiler:
+  - gcc
 addons:
   apt:
     sources:
@@ -14,11 +12,6 @@ addons:
       - gcc-7
       - g++-7
       - cmake
-before_install:
- # set up awscli packages
-  - pip install --user awscli
-  - mkdir -p ~/shared
-  - aws s3 sync s3://travis-ProceduralContentGenerationLinux-SpacePartitioning/shared ~/shared
 install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq libsfml-dev libboost-all-dev cmake
@@ -39,13 +32,12 @@ jobs:
        - cd build
        - cmake .. 
        - make
-       - mv ../bin ~/shared
     - stage: test
       script:
-       - ~/$TRAVIS_BUILD_NUMBER/bin/TestPCGDemo
-      after_success:
-       - aws s3 rm --recursive s3://travis-ProceduralContentGenerationLinux-SpacePartitioning/shared # clean up after ourselves
-after_success:
-  - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://travis-ProceduralContentGenerationLinux-SpacePartitioning/shared
+       - mkdir -p build
+       - cd build
+       - cmake .. 
+       - make
+       - ../bin/TestPCGDemo
 notifications:
   email: false
