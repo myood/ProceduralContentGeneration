@@ -146,6 +146,10 @@ SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePar
         case RelativeProximity::A_on_TOP_of_B:
             return SpacePartition::area_t{a.bottom, getWidthMidpoint(a), a.bottom, getWidthMidpoint(a)};
             break;
+
+        case RelativeProximity::A_UNDER_B:
+            return SpacePartition::area_t{a.top, getWidthMidpoint(a), a.top, getWidthMidpoint(a)};
+            break;
     }
     return {};
 }
