@@ -600,10 +600,204 @@ INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms4x4, GetDoorwayTest, ::testing::Va
         SpacePartition::area_t{7, 7, 7, 7})
 ));
 
+//TODO: INSTANTIATE_TEST_CASE_P(WidthOneCenteredRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(WidthOneCenteredRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
+    /* A B
+      0123456
+    0 00000
+    1 0   000
+    2 0   0 0
+    3 0   000
+    4 00000  */
+    std::make_tuple(
+        SpacePartition::area_t{0, 0, 4, 4},
+        SpacePartition::area_t{1, 4, 3, 6},
+        RelativeProximity::A_on_the_LEFT_of_B,
+        width_one,
+        SpacePartition::area_t{2, 4, 2, 4}),
+    /* A B
+      0123456
+    0   00000
+    1 000   0
+    2 0 0   0
+    3 000   0
+    4   00000  */
+    std::make_tuple(
+        SpacePartition::area_t{1, 0, 3, 2},
+        SpacePartition::area_t{0, 2, 4, 6},
+        RelativeProximity::A_on_the_LEFT_of_B,
+        width_one,
+        SpacePartition::area_t{2, 2, 2, 2}),
+    /* A
+       B
+      01234
+    0 00000
+    1 0   0
+    2 0   0
+    3 0   0
+    4 00000
+    5  0 0
+    6  000 */
+    std::make_tuple(
+        SpacePartition::area_t{0, 0, 4, 4},
+        SpacePartition::area_t{4, 1, 6, 3},
+        RelativeProximity::A_on_TOP_of_B,
+        width_one,
+        SpacePartition::area_t{4, 2, 4, 2}),
+    /* B
+       A
+      01234
+    0  000
+    1  0 0
+    2 00000
+    3 0   0
+    4 0   0
+    5 0   0
+    6 00000*/
+    std::make_tuple(
+        SpacePartition::area_t{2, 0, 6, 4},
+        SpacePartition::area_t{0, 1, 2, 3},
+        RelativeProximity::A_UNDER_B,
+        width_one,
+        SpacePartition::area_t{2, 2, 2, 2})
+));
+
+//TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredTopRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(WidthOneCorneredTopRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
+    /* A B
+      0123456
+    0 0000000
+    1 0   0 0
+    2 0   000
+    3 0   0
+    4 00000  */
+    std::make_tuple(
+        SpacePartition::area_t{0, 0, 4, 4},
+        SpacePartition::area_t{1, 4, 3, 6},
+        RelativeProximity::A_on_the_LEFT_of_B,
+        width_one,
+        SpacePartition::area_t{2, 4, 2, 4}),
+    /* A B
+      0123456
+    0 0000000
+    1 0 0   0
+    2 000   0
+    3   0   0
+    4   00000  */
+    std::make_tuple(
+        SpacePartition::area_t{1, 0, 3, 2},
+        SpacePartition::area_t{0, 2, 4, 6},
+        RelativeProximity::A_on_the_LEFT_of_B,
+        width_one,
+        SpacePartition::area_t{2, 2, 2, 2})
+));
+
+//TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredBottomRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(WidthOneCorneredBottomRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
+    /* A B
+      0123456
+    0 00000
+    1 0   0
+    2 0   000
+    3 0   0 0
+    4 0000000  */
+    std::make_tuple(
+        SpacePartition::area_t{0, 0, 4, 4},
+        SpacePartition::area_t{2, 4, 4, 6},
+        RelativeProximity::A_on_the_LEFT_of_B,
+        width_one,
+        SpacePartition::area_t{2, 4, 2, 4}),
+    /* A B
+      0123456
+    0   00000
+    1   0   0
+    2 000   0
+    3 0 0   0
+    4 0000000  */
+    std::make_tuple(
+        SpacePartition::area_t{2, 0, 4, 2},
+        SpacePartition::area_t{0, 2, 4, 6},
+        RelativeProximity::A_on_the_LEFT_of_B,
+        width_one,
+        SpacePartition::area_t{2, 2, 2, 2})
+));
+
+//TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredLeftRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(WidthOneCorneredLeftRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
+    /* A
+       B
+      01234
+    0 00000
+    1 0   0
+    2 0   0
+    3 0   0
+    4 00000
+    5 0 0
+    6 000 */
+    std::make_tuple(
+        SpacePartition::area_t{0, 0, 4, 4},
+        SpacePartition::area_t{4, 0, 6, 2},
+        RelativeProximity::A_on_TOP_of_B,
+        width_one,
+        SpacePartition::area_t{4, 2, 4, 2}),
+    /* B
+       A
+      01234
+    0 000
+    1 0 0
+    2 00000
+    3 0   0
+    4 0   0
+    5 0   0
+    6 00000*/
+    std::make_tuple(
+        SpacePartition::area_t{2, 0, 6, 4},
+        SpacePartition::area_t{0, 0, 2, 2},
+        RelativeProximity::A_UNDER_B,
+        width_one,
+        SpacePartition::area_t{2, 2, 2, 2})
+));
+
+//TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
+    /* A
+       B
+      01234
+    0 00000
+    1 0   0
+    2 0   0
+    3 0   0
+    4 00000
+    5   0 0
+    6   000 */
+    std::make_tuple(
+        SpacePartition::area_t{0, 0, 4, 4},
+        SpacePartition::area_t{4, 0, 6, 2},
+        RelativeProximity::A_on_TOP_of_B,
+        width_one,
+        SpacePartition::area_t{4, 2, 4, 2}),
+    /* B
+       A
+      01234
+    0   000
+    1   0 0
+    2 00000
+    3 0   0
+    4 0   0
+    5 0   0
+    6 00000*/
+    std::make_tuple(
+        SpacePartition::area_t{2, 0, 6, 4},
+        SpacePartition::area_t{0, 2, 2, 4},
+        RelativeProximity::A_UNDER_B,
+        width_one,
+        SpacePartition::area_t{2, 2, 2, 2})
+
+));
+
 //room width not enugh for doorway
 
 //starting from 0,0
-//width = 1, size = 4x4
 //width = 1, different size, small in the center of big
 //width = 1, different size, small in the corner of big
 //width = 2, equal size odd
