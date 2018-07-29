@@ -5,17 +5,6 @@
 #include "SpacePartition.h"
 #include "Util.h"
 
-struct Grid
-{
-    std::vector<std::vector<TILE>> tiles;
-};
-
-bool operator==(const Grid& lhs, const Grid& rhs);
-
-::std::ostream &operator<<(::std::ostream &os, const Grid& g);
-
-std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vector<SpacePartition::area_t>& areas);
-
 enum class Neighbourhood
 {
     None,
@@ -45,3 +34,14 @@ struct ConnectedRooms
 ::std::ostream &operator<<(::std::ostream &os, const ConnectedRooms& c);
 
 std::vector<ConnectedRooms> createConnectedRoomss(const std::vector<SpacePartition::area_t>& areas);
+
+struct Grid
+{
+    std::vector<std::vector<TILE>> tiles;
+};
+
+bool operator==(const Grid& lhs, const Grid& rhs);
+
+::std::ostream &operator<<(::std::ostream &os, const Grid& g);
+
+std::vector<std::vector<TILE>> createGrid(int width, int height, const std::vector<SpacePartition::area_t>& areas);
