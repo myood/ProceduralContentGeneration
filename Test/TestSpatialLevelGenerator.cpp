@@ -392,60 +392,10 @@ TEST_P(GetDoorwayTest, functional)
 constexpr uint width_one = 1;
 INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms3x3, GetDoorwayTest, ::testing::Values(
     /* A B
-      01234
-    0 00000
-    1 0 0 0
-    2 00000    */
-    std::make_tuple(
-        SpacePartition::area_t{0, 0, 2, 2},
-        SpacePartition::area_t{0, 2, 2, 4}, 
-        RelativeProximity::A_on_the_LEFT_of_B,
-        width_one, 
-        SpacePartition::area_t{1, 2, 1, 2}),
-    /* B A
-      01234
-    0 00000
-    1 0 0 0
-    2 00000    */
-    std::make_tuple(
-        SpacePartition::area_t{0, 2, 2, 4}, 
-        SpacePartition::area_t{0, 0, 2, 4}, 
-        RelativeProximity::A_on_the_RIGHT_of_B, 
-        width_one, 
-        SpacePartition::area_t{1, 2, 1, 2}),
-    /* A
-       B
-      012
-    0 000
-    1 0 0
-    2 000
-    3 0 0
-    4 000 */
-    std::make_tuple(
-        SpacePartition::area_t{0, 0, 2, 2}, 
-        SpacePartition::area_t{2, 0, 4, 2}, 
-        RelativeProximity::A_on_TOP_of_B, 
-        width_one, 
-        SpacePartition::area_t{2, 1, 2, 1}),
-    /* B
-       A
-      012
-    0 000
-    1 0 0
-    2 000
-    3 0 0
-    4 000 */
-    std::make_tuple(
-        SpacePartition::area_t{2, 0, 4, 2},
-        SpacePartition::area_t{0, 0, 2, 2},
-        RelativeProximity::A_UNDER_B, 
-        width_one, 
-        SpacePartition::area_t{2, 1, 2, 1}),
-    /* A B
-      01234
-    0 00000
-    1 0 0 0
-    2 00000    */
+      56789
+    5 00000
+    6 0 0 0
+    7 00000    */
     std::make_tuple(
         SpacePartition::area_t{5, 5, 7, 7},
         SpacePartition::area_t{5, 7, 7, 9}, 
@@ -495,58 +445,6 @@ INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms3x3, GetDoorwayTest, ::testing::Va
 
 INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms4x4, GetDoorwayTest, ::testing::Values(
     /* A B
-      0123456
-    0 0000000
-    1 0  0  0
-    2 0  0  0
-    3 0000000    */
-    std::make_tuple(
-        SpacePartition::area_t{0, 0, 3, 3},
-        SpacePartition::area_t{0, 3, 3, 6}, 
-        RelativeProximity::A_on_the_LEFT_of_B,
-        width_one, 
-        SpacePartition::area_t{2, 3, 2, 3}),
-    /* B A
-      0123456
-    0 0000000
-    1 0  0  0
-    2 0  0  0
-    3 0000000    */
-    std::make_tuple(
-        SpacePartition::area_t{0, 3, 3, 6}, 
-        SpacePartition::area_t{0, 0, 3, 3}, 
-        RelativeProximity::A_on_the_RIGHT_of_B, 
-        width_one, 
-        SpacePartition::area_t{2, 3, 2, 3}),
-    /* A
-       B
-      0123
-    0 0000
-    1 0  0
-    2 0000
-    3 0  0
-    4 0000 */
-    std::make_tuple(
-        SpacePartition::area_t{0, 0, 2, 3}, 
-        SpacePartition::area_t{2, 0, 4, 3}, 
-        RelativeProximity::A_on_TOP_of_B, 
-        width_one, 
-        SpacePartition::area_t{2, 2, 2, 2}),    
-    /* A
-       B
-      0123
-    0 0000
-    1 0  0
-    2 0000
-    3 0  0
-    4 0000 */
-    std::make_tuple( 
-        SpacePartition::area_t{2, 0, 4, 3},
-        SpacePartition::area_t{0, 0, 2, 3},
-        RelativeProximity::A_UNDER_B,
-        width_one,
-        SpacePartition::area_t{2, 2, 2, 2}),
-    /* A B
       3456789
     3 0000000
     4 0  0  0
@@ -572,12 +470,12 @@ INSTANTIATE_TEST_CASE_P(WidthOneEqualSizeRooms4x4, GetDoorwayTest, ::testing::Va
         SpacePartition::area_t{5, 6, 5, 6}),
     /* A
        B
-      0123
-    0 0000
-    1 0  0
-    2 0000
-    3 0  0
-    4 0000 */
+      5678
+    5 0000
+    6 0  0
+    7 0000
+    8 0  0
+    9 0000 */
     std::make_tuple(
         SpacePartition::area_t{5, 5, 7, 8},
         SpacePartition::area_t{7, 5, 9, 8}, 
@@ -797,9 +695,6 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_3x3_5x5, GetDoorwayTest, ::te
 
 //room width not enugh for doorway
 
-//starting from 0,0
-//width = 1, different size, small in the center of big
-//width = 1, different size, small in the corner of big
 //width = 2, equal size odd
 //width = 2, equal size even
 //width = 2, different size, small in the center of big
