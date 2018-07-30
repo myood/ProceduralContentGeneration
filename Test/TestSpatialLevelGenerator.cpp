@@ -706,7 +706,7 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredBottomRooms_3x3_5x5, GetDoorwayTest, ::t
         SpacePartition::area_t{2, 4, 4, 6},
         RelativeProximity::A_on_the_LEFT_of_B,
         width_one,
-        SpacePartition::area_t{2, 4, 2, 4}),
+        SpacePartition::area_t{3, 4, 3, 4}),
     /* A B
       0123456
     0   00000
@@ -719,7 +719,7 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredBottomRooms_3x3_5x5, GetDoorwayTest, ::t
         SpacePartition::area_t{0, 2, 4, 6},
         RelativeProximity::A_on_the_LEFT_of_B,
         width_one,
-        SpacePartition::area_t{2, 2, 2, 2})
+        SpacePartition::area_t{3, 2, 3, 2})
 ));
 
 //TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredLeftRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
@@ -739,7 +739,7 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredLeftRooms_3x3_5x5, GetDoorwayTest, ::tes
         SpacePartition::area_t{4, 0, 6, 2},
         RelativeProximity::A_on_TOP_of_B,
         width_one,
-        SpacePartition::area_t{4, 2, 4, 2}),
+        SpacePartition::area_t{4, 1, 4, 1}),
     /* B
        A
       01234
@@ -755,7 +755,7 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredLeftRooms_3x3_5x5, GetDoorwayTest, ::tes
         SpacePartition::area_t{0, 0, 2, 2},
         RelativeProximity::A_UNDER_B,
         width_one,
-        SpacePartition::area_t{2, 2, 2, 2})
+        SpacePartition::area_t{2, 1, 2, 1})
 ));
 
 //TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
@@ -772,10 +772,10 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_3x3_5x5, GetDoorwayTest, ::te
     6   000 */
     std::make_tuple(
         SpacePartition::area_t{0, 0, 4, 4},
-        SpacePartition::area_t{4, 0, 6, 2},
+        SpacePartition::area_t{4, 2, 6, 4},
         RelativeProximity::A_on_TOP_of_B,
         width_one,
-        SpacePartition::area_t{4, 2, 4, 2}),
+        SpacePartition::area_t{4, 3, 4, 3}),
     /* B
        A
       01234
@@ -791,7 +791,7 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_3x3_5x5, GetDoorwayTest, ::te
         SpacePartition::area_t{0, 2, 2, 4},
         RelativeProximity::A_UNDER_B,
         width_one,
-        SpacePartition::area_t{2, 2, 2, 2})
+        SpacePartition::area_t{2, 3, 2, 3})
 
 ));
 
