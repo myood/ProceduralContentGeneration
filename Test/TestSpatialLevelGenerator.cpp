@@ -624,72 +624,72 @@ INSTANTIATE_TEST_CASE_P(WidthOneCorneredBottomRooms_3x3_5x5, GetDoorwayTest, ::t
 INSTANTIATE_TEST_CASE_P(WidthOneCorneredLeftRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
     /* A
        B
-      01234
-    0 00000
-    1 0   0
-    2 0   0
-    3 0   0
-    4 00000
-    5 0 0
-    6 000 */
-    std::make_tuple(
-        SpacePartition::area_t{0, 0, 4, 4},
-        SpacePartition::area_t{4, 0, 6, 2},
-        RelativeProximity::A_on_TOP_of_B,
-        width_one,
-        SpacePartition::area_t{4, 1, 4, 1}),
-    /* B
-       A
-      01234
-    0 000
-    1 0 0
+      23456
     2 00000
     3 0   0
     4 0   0
     5 0   0
-    6 00000*/
+    6 00000
+    7 0 0
+    8 000 */
     std::make_tuple(
-        SpacePartition::area_t{2, 0, 6, 4},
-        SpacePartition::area_t{0, 0, 2, 2},
+        SpacePartition::area_t{2, 2, 6, 6},
+        SpacePartition::area_t{6, 2, 8, 4},
+        RelativeProximity::A_on_TOP_of_B,
+        width_one,
+        SpacePartition::area_t{6, 3, 6, 3}),
+    /* B
+       A
+      23456
+    2 000
+    3 0 0
+    4 00000
+    5 0   0
+    6 0   0
+    7 0   0
+    8 00000*/
+    std::make_tuple(
+        SpacePartition::area_t{4, 2, 8, 6},
+        SpacePartition::area_t{2, 2, 4, 4},
         RelativeProximity::A_UNDER_B,
         width_one,
-        SpacePartition::area_t{2, 1, 2, 1})
+        SpacePartition::area_t{4, 3, 4, 3})
 ));
 
 //TODO: INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_4x4_6x6, GetDoorwayTest, ::testing::Values(
 INSTANTIATE_TEST_CASE_P(WidthOneCorneredRightRooms_3x3_5x5, GetDoorwayTest, ::testing::Values(
     /* A
        B
-      01234
-    0 00000
-    1 0   0
-    2 0   0
-    3 0   0
-    4 00000
-    5   0 0
-    6   000 */
-    std::make_tuple(
-        SpacePartition::area_t{0, 0, 4, 4},
-        SpacePartition::area_t{4, 2, 6, 4},
-        RelativeProximity::A_on_TOP_of_B,
-        width_one,
-        SpacePartition::area_t{4, 3, 4, 3}),
-    /* B
-       A
-      01234
-    0   000
-    1   0 0
-    2 00000
-    3 0   0
+      34567
+    3 00000
     4 0   0
     5 0   0
-    6 00000*/
+    6 0   0
+    7 00000
+    8   0 0
+    9   000 */
     std::make_tuple(
-        SpacePartition::area_t{2, 0, 6, 4},
-        SpacePartition::area_t{0, 2, 2, 4},
+        SpacePartition::area_t{3, 3, 7, 7},
+        SpacePartition::area_t{7, 5, 9, 7},
+        RelativeProximity::A_on_TOP_of_B,
+        width_one,
+        SpacePartition::area_t{7, 6, 7, 6}),
+    /* B
+       A
+      34567
+    3   000
+    4   0 0
+    5 00000
+    6 0   0
+    7 0   0
+    8 0   0
+    9 00000*/
+    std::make_tuple(
+        SpacePartition::area_t{5, 3, 9, 7},
+        SpacePartition::area_t{3, 5, 5, 7},
         RelativeProximity::A_UNDER_B,
         width_one,
-        SpacePartition::area_t{2, 3, 2, 3})
+        SpacePartition::area_t{5, 6, 5, 6})
 
 ));
 
