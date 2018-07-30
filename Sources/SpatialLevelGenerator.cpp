@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 #include "SpacePartition.h"
 #include "SpatialLevelGenerator.h"
 #include "Util.h"
@@ -131,24 +132,33 @@ RelativeProximity getRelativeProximityType(const SpacePartition::area_t& a, cons
 
 SpacePartition::area_t getDoorway(const SpacePartition::area_t a, const SpacePartition::area_t b, RelativeProximity relativeProximity, uint width)
 {
-    const auto getHeightMidpoint = [](const SpacePartition::area_t& a){ return a.top + uint(a.height() / 2.0f); };
-    const auto getWidthMidpoint = [](const SpacePartition::area_t& a){ return a.left + uint(a.width() / 2.0f); };
+    const auto getHeightMidpoint = [](const auto& a, const auto& b)
+    { 
+        const auto& ref = a.height() < b.height() ? a : b;
+        return ref.top + uint(floor(ref.height() / 2.0)); 
+    };
+    const auto getWidthMidpoint = [](const auto& a, const auto& b)
+    { 
+        const auto& ref = a.width() < b.width() ? a : b;
+        return ref.left + uint(floor(ref.width() / 2.0)); 
+    };
+
     switch (relativeProximity)
     {
         case RelativeProximity::A_on_the_LEFT_of_B:
-            return SpacePartition::area_t{getHeightMidpoint(a), a.right, getHeightMidpoint(a), a.right};
+            return SpacePartition::area_t{getHeightMidpoint(a, b), a.right, getHeightMidpoint(a, b), a.right};
             break;
 
         case RelativeProximity::A_on_the_RIGHT_of_B:
-            return SpacePartition::area_t{getHeightMidpoint(a), a.left, getHeightMidpoint(a), a.left};
+            return SpacePartition::area_t{getHeightMidpoint(a, b), a.left, getHeightMidpoint(a, b), a.left};
             break;
 
         case RelativeProximity::A_on_TOP_of_B:
-            return SpacePartition::area_t{a.bottom, getWidthMidpoint(a), a.bottom, getWidthMidpoint(a)};
+            return SpacePartition::area_t{a.bottom, getWidthMidpoint(a, b), a.bottom, getWidthMidpoint(a, b)};
             break;
 
         case RelativeProximity::A_UNDER_B:
-            return SpacePartition::area_t{a.top, getWidthMidpoint(a), a.top, getWidthMidpoint(a)};
+            return SpacePartition::area_t{a.top, getWidthMidpoint(a, b), a.top, getWidthMidpoint(a, b)};
             break;
 
         default:
